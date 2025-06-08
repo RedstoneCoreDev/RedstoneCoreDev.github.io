@@ -1,3 +1,0 @@
-# RedstoneCoreDev.github.io
-
-Hello!
