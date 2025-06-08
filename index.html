@@ -1,48 +1,45 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reds github page</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 2rem;
-      background: #f0f0f0;
-      color: #333;
-    }
-    header {
-      background: #222;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-    main {
-      max-width: 800px;
-      margin: auto;
-      background: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    footer {
-      text-align: center;
-      margin-top: 2rem;
-      font-size: 0.8rem;
-      color: #666;
-    }
-  </style>
+  <title>Red – Projects</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <canvas id="stars"></canvas>
+  <div id="overlay-elements">
+    <img src="cat1.png" alt="cat 1" class="cat cat-left" />
+    <img src="cat2.png" alt="cat 2" class="cat cat-right" />
+  </div>
+
   <header>
-    <h1>Welcome to my page on Github pages!</h1>
+    <h1>Red – Projects & Learning</h1>
   </header>
+
   <main>
-    <p>Here Im going to make a describtion of me and my projects.</p>
+    <h2>About Me</h2>
+    <p>Hi, I'm Red. I'm a student from Austria and currently learning how to become a software engineer. I work mostly with HTML, CSS, and JavaScript, building real-world projects to get better at it.</p>
+    <p>I sometimes use AI tools like ChatGPT to help when I get stuck, but I try to understand and write my code myself — not just rely on shortcuts.</p>
+    <p>I also offer help for free via Discord if someone needs support with coding or setup problems. Just message me!</p>
+
+    <h2>Projects</h2>
+    <ul>
+      <li><strong>Forstservice & Erdbewegung Schuh:</strong> Clean business website built without frameworks.</li>
+      <li><strong>Mandelbrot Optimizer:</strong> Code that improves itself for rendering Mandelbrot zooms.</li>
+      <li><strong>Browser Adventure Game:</strong> Web game with ABMC references and Easter eggs.</li>
+      <li><strong>Geometry Quiz App:</strong> A quiz tool for learning geometry formulas.</li>
+    </ul>
+
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:your@email.com">your@email.com</a></p>
   </main>
+
   <footer>
-    © 2025 – RedstoneCoreDev
+    <p><a href="impressum.html">Impressum</a> | <a href="datenschutz.html">Datenschutz</a></p>
+    <p>© 2025 Red</p>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
