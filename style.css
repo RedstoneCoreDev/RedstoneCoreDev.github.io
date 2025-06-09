@@ -24,6 +24,11 @@ header, footer {
   z-index: 1;
 }
 
+.footertext {
+  border-color: #ff0000;
+  border-radius: 50%;
+}
+
 main {
   max-width: 800px;
   margin: 2rem auto;

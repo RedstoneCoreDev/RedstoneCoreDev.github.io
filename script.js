@@ -3,7 +3,6 @@ const ctx = canvas.getContext("2d");
 
 let stars = [];
 let planets = [];
-let blackHoles = [];
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
