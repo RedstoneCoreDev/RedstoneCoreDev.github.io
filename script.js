@@ -58,5 +58,5 @@ window.addEventListener("resize", () => {
 
 resizeCanvas();
 createStars();
-createPlanets();
+//createPlanets();
 drawScene();
