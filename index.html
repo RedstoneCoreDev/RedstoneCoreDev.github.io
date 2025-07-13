@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RDT - Reds Dev Team</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        background: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #1e293b 50%,
+          #0f172a 100%
+        );
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+      }
+
+      .redirect-container {
+        max-width: 400px;
+        padding: 2rem;
+        background: rgba(30, 41, 59, 0.8);
+        border-radius: 1rem;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+      }
+
+      .logo {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #ef4444;
+        margin-bottom: 1rem;
+      }
+
+      .message {
+        color: #9ca3af;
+        margin-bottom: 2rem;
+      }
+
+      .loading {
+        color: #ef4444;
+        font-size: 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="redirect-container">
+      <div class="logo">RDT</div>
+      <div class="message">Detecting your device...</div>
+      <div class="loading">🚀 Redirecting...</div>
+    </div>
+
+    <script>
+      function isMobile() {
+        return (
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent
+          ) || window.innerWidth <= 768
+        );
+      }
+
+      function redirect() {
+        if (isMobile()) {
+          window.location.href = "mobile.html";
+        } else {
+          window.location.href = "desktop.html";
+        }
+      }
+
+      // Redirect after a short delay
+      setTimeout(redirect, 250);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RDT - Reds Dev Team | Mobile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        .redstone-gradient-enhanced {
+            background: linear-gradient(to right, 
+                #ef4444 0%, #f87171 15%, 
+                #dc2626 30%, #b91c1c 40%, 
+                #8b5cf6 50%, #7c3aed 60%, 
+                #3b82f6 70%, #2563eb 85%, 
+                #1d4ed8 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        /* Background Elements */
+        .background {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(30px);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .bg-circle-1 { top: 80px; left: 40px; width: 80px; height: 80px; background: rgba(239, 68, 68, 0.1); }
+        .bg-circle-2 { bottom: 160px; right: 40px; width: 96px; height: 96px; background: rgba(147, 51, 234, 0.1); animation-delay: 2s; }
+
+        .code-snippets {
+            position: absolute;
+            inset: 0;
+            opacity: 0.05;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+        }
+
+        .code-snippet {
+            position: absolute;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .code-snippet:nth-child(1) { top: 128px; left: 16px; animation-delay: 0s; }
+        .code-snippet:nth-child(2) { bottom: 240px; right: 16px; animation-delay: 5s; }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            transition: all 0.5s ease;
+            padding: 12px 16px;
+        }
+
+        .header.scrolled {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .rdt-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+            color: #ef4444;
+            transition: all 0.5s ease;
+            font-size: 2rem;
+        }
+
+        .discord-button {
+            background: #5865F2;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .discord-button:hover {
+            background: #4752C4;
+        }
+
+        /* Main Content */
+        .main {
+            position: relative;
+            z-index: 10;
+        }
+
+        .section {
+            padding: 48px 16px;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            padding: 64px 16px;
+            margin-top: 64px;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 1.5rem;
+            color: #9ca3af;
+            margin-bottom: 16px;
+        }
+
+        .hero p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+        }
+
+        .card-header {
+            text-align: center;
+            padding: 24px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ef4444;
+            margin-bottom: 16px;
+        }
+
+        .card-description {
+            font-size: 1rem;
+            color: #9ca3af;
+            margin-bottom: 24px;
+        }
+
+        .card-content {
+            padding: 0 24px 24px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            padding: 0 24px 24px;
+        }
+
+        .team-card {
+            background: rgba(71, 85, 105, 0.5);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .team-card-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .team-avatar {
+            width: 48px;
+            height: 48px;
+            background: rgba(71, 85, 105, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 2px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .team-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .team-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .team-name {
+            font-weight: bold;
+            font-size: 1.125rem;
+            margin-bottom: 4px;
+        }
+
+        .team-role {
+            font-size: 0.875rem;
+            color: #ef4444;
+            margin-bottom: 8px;
+        }
+
+        .team-location {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .team-bio {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .skill-tag {
+            padding: 2px 8px;
+            background: rgba(71, 85, 105, 0.8);
+            color: #9ca3af;
+            border-radius: 12px;
+            font-size: 0.625rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .project-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #ef4444;
+            margin-bottom: 8px;
+        }
+
+        .project-description {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .status-completed { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+        .status-development { background: rgba(234, 179, 8, 0.2); color: #facc15; }
+        .status-planning { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .status-concept { background: rgba(107, 114, 128, 0.2); color: #9ca3af; }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .tech-tag {
+            padding: 2px 8px;
+            background: rgba(71, 85, 105, 0.8);
+            color: #9ca3af;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(71, 85, 105, 0.3);
+            padding: 16px;
+            z-index: 50;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            color: #9ca3af;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .nav-icon {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+
+        .nav-text {
+            font-size: 0.75rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .legal-page {
+            min-height: 100vh;
+            padding-top: 80px;
+            padding-left: 16px;
+            padding-right: 16px;
+            padding-bottom: 96px;
+        }
+
+        .legal-content {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .legal-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .legal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ef4444;
+            margin-bottom: 24px;
+        }
+
+        .legal-section {
+            margin-bottom: 24px;
+        }
+
+        .legal-section h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .legal-section h3 {
+            font-size: 1rem;
+            font-weight: 500;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .legal-section p {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .legal-section ul {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-left: 16px;
+            margin-bottom: 12px;
+        }
+
+        .legal-section li {
+            margin-bottom: 4px;
+        }
+
+        .legal-link {
+            color: #f87171;
+            text-decoration: none;
+        }
+
+        .legal-link:hover {
+            color: #fca5a5;
+        }
+
+        .legal-footer {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 24px;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.1; }
+            50% { transform: translateY(-10px) translateX(15px); opacity: 0.3; }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mb-4 { margin-bottom: 16px; }
+        .mb-6 { margin-bottom: 24px; }
+        .space-y-4 > * + * { margin-top: 16px; }
+        .space-y-6 > * + * { margin-top: 24px; }
+
+        /* Join section specific styles */
+        .join-section {
+            margin-bottom: 24px;
+        }
+
+        .join-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .join-section ul {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .join-section li {
+            margin-bottom: 8px;
+        }
+
+        .apply-button {
+            background: #ef4444;
+            color: white;
+            padding: 12px 32px;
+            font-size: 1.125rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .apply-button:hover {
+            background: #dc2626;
+            transform: scale(1.02);
+        }
+
+        /* Color Classes */
+        .text-yellow-400 { color: #facc15; }
+        .text-green-400 { color: #4ade80; }
+        .text-blue-400 { color: #60a5fa; }
+        .text-pink-400 { color: #f472b6; }
+        .text-cyan-400 { color: #22d3ee; }
+        .text-orange-400 { color: #fb923c; }
+        .text-lime-400 { color: #a3e635; }
+        .text-violet-400 { color: #a78bfa; }
+        .text-emerald-400 { color: #34d399; }
+        .text-teal-400 { color: #2dd4bf; }
+        .text-indigo-400 { color: #818cf8; }
+        .text-rose-400 { color: #fb7185; }
+        .text-blue-500 { color: #3b82f6; }
+        .text-purple-500 { color: #8b5cf6; }
+        .text-green-700 { color: #15803d; }
+    </style>
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="background">
+        <div class="bg-circle bg-circle-1"></div>
+        <div class="bg-circle bg-circle-2"></div>
+        
+        <div class="code-snippets">
+            <div class="code-snippet">const rdt = "awesome";</div>
+            <div class="code-snippet">// Mobile optimized</div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-content">
+            <div style="flex: 1; display: flex; justify-content: center;">
+                <h1 class="rdt-title" id="rdtTitle">RDT</h1>
+            </div>
+
+            <a href="https://discord.gg/sAVMabyH" target="_blank" class="discord-button">
+                Discord
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Home Tab -->
+        <div id="home-tab">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <h2>Reds Dev Team</h2>
+                    <p>Building innovative digital solutions with passion and creativity.</p>
+                </div>
+            </section>
+
+            <!-- Join Team Section -->
+            <section class="section">
+                <div class="container">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">👥 Join Our Team</h2>
+                            <p class="card-description">Ready to build amazing projects?</p>
+                        </div>
+                        <div class="card-content">
+                            <div class="join-section">
+                                <h3>💻 We're Looking For</h3>
+                                <ul>
+                                    <li>⚡ <strong>Developers</strong> (Frontend & Backend)</li>
+                                    <li>⚡ <strong>Artists</strong> (UI/UX, Graphics)</li>
+                                    <li>⚡ <strong>Musicians</strong> (Sound Design)</li>
+                                    <li>⚡ Passion for innovation</li>
+                                </ul>
+                            </div>
+                            <div class="join-section">
+                                <h3>What We Offer</h3>
+                                <ul>
+                                    <li>• Collaborative environment</li>
+                                    <li>• Learning opportunities</li>
+                                    <li>• Real-world experience</li>
+                                    <li>• Supportive community</li>
+                                </ul>
+                            </div>
+                            <a href="https://discord.gg/sAVMabyH" target="_blank" class="apply-button">
+                                Apply Now on Discord
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Team Members Section -->
+            <section class="section">
+                <div class="container">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">🚀 Team Members</h2>
+                            <p class="card-description">Meet our talented creators</p>
+                        </div>
+                        <div class="team-grid" id="teamGrid">
+                            <!-- Team members will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Projects Tab -->
+        <div id="projects-tab" class="hidden">
+            <section class="section" style="padding-top: 80px;">
+                <div class="container">
+                    <div class="text-center mb-6">
+                        <h1 style="font-size: 1.875rem; font-weight: bold; color: #ef4444; margin-bottom: 16px;">Our Projects</h1>
+                        <p style="color: #9ca3af;">Latest work and innovations</p>
+                    </div>
+
+                    <div class="projects-grid" id="projectsGrid">
+                        <!-- Projects will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Data Protection Tab -->
+        <div id="data-protection-tab" class="hidden">
+            <div class="legal-page">
+                <div class="legal-content">
+                    <div class="legal-card">
+                        <h1 class="legal-title">Data Protection</h1>
+                        <div class="legal-section">
+                            <h2>1. Data Controller</h2>
+                            <p>RDT - Reds Dev Team<br>Contact: redstone9263@gmail.com</p>
+                        </div>
+                        <div class="legal-section">
+                            <h2>2. Data Collection</h2>
+                            <p>We collect minimal data necessary for our website:</p>
+                            <ul>
+                                <li>Technical data collected by GitHub Pages for content delivery</li>
+                            </ul>
+                        </div>
+                        <div class="legal-section">
+                            <h2>3. Your Rights</h2>
+                            <p>Under GDPR, you have the right to access, rectify, erase, restrict processing, data portability, and object to processing.</p>
+                        </div>
+                        <div class="legal-section">
+                            <h2>4. Contact</h2>
+                            <p>For data protection inquiries: redstone9263@gmail.com</p>
+                        </div>
+                        <p class="legal-footer">Last updated: July 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Imprint Tab -->
+        <div id="imprint-tab" class="hidden">
+            <div class="legal-page">
+                <div class="legal-content">
+                    <div class="legal-card">
+                        <h1 class="legal-title">Imprint</h1>
+                        <div class="legal-section">
+                            <h2>Information according to § 5 ECG</h2>
+                            <p>
+                                RDT - Reds Dev Team<br>
+                                Developer Community<br>
+                                Online Presence
+                            </p>
+                        </div>
+                        <div class="legal-section">
+                            <h2>Contact</h2>
+                            <p>
+                                Email: redstone9263@gmail.com<br>
+                                Discord: <a href="https://discord.gg/sAVMabyH" class="legal-link">Join Server</a>
+                            </p>
+                        </div>
+                        <div class="legal-section">
+                            <h2>Responsible for Content</h2>
+                            <p>
+                                RedstoneCoreDev<br>
+                                Lead Developer, RDT Team
+                            </p>
+                        </div>
+                        <div class="legal-section">
+                            <h2>Disclaimer</h2>
+                            <h3>Liability for Content</h3>
+                            <p>We are liable for our own content according to Austrian E-Commerce Act (ECG) § 7 para.1.</p>
+                            <h3>Liability for Links</h3>
+                            <p>We have no influence on external website contents and cannot guarantee them.</p>
+                            <h3>Copyright</h3>
+                            <p>Content is subject to Austrian copyright laws. Written permission required for reproduction.</p>
+                        </div>
+                        <p class="legal-footer">Last updated: July 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-grid">
+            <button class="nav-item active" onclick="showTab('home')">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-text">Home</div>
+            </button>
+            <button class="nav-item" onclick="showTab('projects')">
+                <div class="nav-icon">💻</div>
+                <div class="nav-text">Projects</div>
+            </button>
+            <button class="nav-item" onclick="showTab('data-protection')">
+                <div class="nav-icon">🛡️</div>
+                <div class="nav-text">Privacy</div>
+            </button>
+            <button class="nav-item" onclick="showTab('imprint')">
+                <div class="nav-icon">📄</div>
+                <div class="nav-text">Imprint</div>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // ========================================
+        // 🎯 EASY CONFIGURATION SECTION
+        // ========================================
+        // Change these values to customize your website!
+
+        // TEAM MEMBERS - Add your team here!
+        const TEAM_MEMBERS = [
+            {
+                name: "RedstoneCoreDev",
+                role: "Lead Dev", 
+                location: "Austria",
+                bio: "Lead developer and founder of RDT. Passionate about creating innovative solutions.",
+                skills: ["HTML & CSS", "Efficiency", "React"],
+                profileImage: "", // Add image URL here like: "images/redstone.jpg"
+                nameColor: "redstone-gradient-enhanced" // Special gradient for RedstoneCoreDev
+            },
+            {
+                name: "Jonger",
+                role: "Designer",
+                location: "Netherlands", 
+                bio: "Creative artist specializing in UI/UX design and digital art.",
+                skills: ["Figma", "Photoshop", "UI/UX"],
+                profileImage: "", // Add image URL here
+                nameColor: "text-blue-500"
+            },
+            {
+                name: "Argentum", 
+                role: "Backend",
+                location: "Canada",
+                bio: "Backend specialist with expertise in database design and API development.",
+                skills: ["Java", "Spring", "PostgreSQL"],
+                profileImage: "", // Add image URL here
+                nameColor: "text-purple-500"
+            },
+            {
+                name: "TheElderTangent",
+                role: "Full-Stack", 
+                location: "United States",
+                bio: "Full-stack developer with a passion for modern web technologies.",
+                skills: ["TypeScript", "Next.js", "GraphQL"],
+                profileImage: "", // Add image URL here
+                nameColor: "random" // This will pick a random color each time
+            },
+            {
+                name: "Androidl2",
+                role: "Animator",
+                location: "Australia", 
+                bio: "Digital artist and animator creating engaging visual content.",
+                skills: ["After Effects", "Blender", "Animation"],
+                profileImage: "", // Add image URL here
+                nameColor: "text-green-700"
+            }
+        ];
+
+        // PROJECTS - Add your projects here!
+        const PROJECTS = [
+            {
+                title: "RDT Website",
+                description: "Modern, responsive team website",
+                status: "Completed", // Options: "Completed", "In Development", "Planning", "Concept"
+                technologies: ["React", "Tailwind CSS"],
+                features: ["Responsive Design", "Team Profiles"]
+            },
+            {
+                title: "Creative Dashboard", 
+                description: "Analytics dashboard for projects",
+                status: "In Development",
+                technologies: ["Vue.js", "D3.js"],
+                features: ["Real-time Analytics", "Project Tracking"]
+            },
+            {
+                title: "Animation Studio",
+                description: "Web-based animation tool", 
+                status: "Planning",
+                technologies: ["Canvas API", "WebGL"],
+                features: ["Timeline Editor", "Animation Tools"]
+            },
+            {
+                title: "Code Collaboration",
+                description: "Real-time coding environment",
+                status: "Concept", 
+                technologies: ["Socket.io", "WebRTC"],
+                features: ["Live Editing", "Voice Chat"]
+            }
+        ];
+
+        // WEBSITE SETTINGS
+        const WEBSITE_CONFIG = {
+            teamName: "Reds Dev Team",
+            heroDescription: "Building innovative digital solutions with passion and creativity.",
+            discordLink: "https://discord.gg/sAVMabyH",
+            contactEmail: "redstone9263@gmail.com"
+        };
+
+        // ========================================
+        // 🔧 TECHNICAL CODE (Don't change unless you know what you're doing!)
+        // ========================================
+
+        // Random colors for special effects
+        const RANDOM_COLORS = [
+            "text-yellow-400", "text-green-400", "text-blue-400", "text-pink-400", 
+            "text-cyan-400", "text-orange-400", "text-lime-400", "text-violet-400",
+            "text-emerald-400", "text-teal-400", "text-indigo-400", "text-rose-400"
+        ];
+
+        function getRandomColor() {
+            return RANDOM_COLORS[Math.floor(Math.random() * RANDOM_COLORS.length)];
+        }
+
+        function getStatusClass(status) {
+            const statusMap = {
+                "Completed": "status-completed",
+                "In Development": "status-development", 
+                "Planning": "status-planning",
+                "Concept": "status-concept"
+            };
+            return statusMap[status] || "status-concept";
+        }
+
+        function populateTeamMembers() {
+            const teamGrid = document.getElementById('teamGrid');
+            teamGrid.innerHTML = '';
+
+            TEAM_MEMBERS.forEach((member, index) => {
+                const memberCard = document.createElement('div');
+                memberCard.className = 'team-card';
+
+                // Handle name color
+                let nameColorClass = member.nameColor;
+                if (member.nameColor === "random") {
+                    nameColorClass = getRandomColor();
+                }
+
+                // Handle profile image
+                let avatarContent = '👤'; // Default emoji
+                if (member.profileImage && member.profileImage.trim() !== '') {
+                    avatarContent = `<img src="${member.profileImage}" alt="${member.name}" onerror="this.style.display='none'; this.parentNode.innerHTML='👤';">`;
+                }
+
+                const skillsHtml = member.skills.slice(0, 3).map(skill => 
+                    `<span class="skill-tag">${skill}</span>`
+                ).join('');
+
+                memberCard.innerHTML = `
+                    <div class="team-card-content">
+                        <div class="team-avatar">${avatarContent}</div>
+                        <div class="team-info">
+                            <div class="team-name ${nameColorClass}">${member.name}</div>
+                            <div class="team-role">${member.role}</div>
+                            <div class="team-location">${member.location}</div>
+                            <div class="team-bio">${member.bio}</div>
+                            <div class="skills">${skillsHtml}</div>
+                        </div>
+                    </div>
+                `;
+
+                teamGrid.appendChild(memberCard);
+            });
+        }
+
+        function populateProjects() {
+            const projectsGrid = document.getElementById('projectsGrid');
+            projectsGrid.innerHTML = '';
+
+            PROJECTS.forEach(project => {
+                const projectCard = document.createElement('div');
+                projectCard.className = 'project-card';
+
+                const techHtml = project.technologies.map(tech => 
+                    `<span class="tech-tag">${tech}</span>`
+                ).join('');
+
+                projectCard.innerHTML = `
+                    <h3 class="project-title">${project.title}</h3>
+                    <p class="project-description">${project.description}</p>
+                    <span class="status-badge ${getStatusClass(project.status)}</span>
+                    <div class="tech-tags">${techHtml}</div>
+                `;
+
+                projectsGrid.appendChild(projectCard);
+            });
+        }
+
+        function showTab(tabName) {
+            const tabs = ['home', 'projects', 'data-protection', 'imprint'];
+            tabs.forEach(tab => {
+                const element = document.getElementById(`${tab}-tab`);
+                if (element) {
+                    element.classList.add('hidden');
+                }
+            });
+
+            const selectedTab = document.getElementById(`${tabName}-tab`);
+            if (selectedTab) {
+                selectedTab.classList.remove('hidden');
+            }
+
+            const navButtons = document.querySelectorAll('.nav-item');
+            navButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            const navTexts = ['home', 'projects', 'privacy', 'imprint'];
+            const tabIndex = ['home', 'projects', 'data-protection', 'imprint'].indexOf(tabName);
+            if (tabIndex !== -1) {
+                navButtons[tabIndex].classList.add('active');
+            }
+        }
+
+        function handleScroll() {
+            const header = document.getElementById('header');
+            const rdtTitle = document.getElementById('rdtTitle');
+            const scrollY = window.scrollY;
+
+            if (scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+
+            const scrollProgress = Math.min(scrollY / 200, 1);
+            const titleScale = 0.7 - scrollProgress * 0.2;
+            rdtTitle.style.fontSize = `${titleScale * 3}rem`;
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            populateTeamMembers();
+            populateProjects();
+            
+            let ticking = false;
+            window.addEventListener('scroll', function() {
+                if (!ticking) {
+                    requestAnimationFrame(function() {
+                        handleScroll();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+        });
+    </script>
+</body>
+</html>
