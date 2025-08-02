@@ -125,6 +125,7 @@ body {
 
 .header.scrolled {
   background: rgba(15, 23, 42, 0.95);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(71, 85, 105, 0.3);
 }
@@ -199,6 +200,7 @@ body {
 
 .section {
   padding: 96px 32px;
+  padding-top: 128px;
 }
 
 .container {
@@ -208,7 +210,7 @@ body {
 
 .hero {
   padding: 128px 32px;
-  margin-top: 96px;
+  margin-top: 48px;
   text-align: center;
 }
 
@@ -228,6 +230,7 @@ body {
 .card {
   background: rgba(30, 41, 59, 0.5);
   border: 1px solid rgba(71, 85, 105, 0.3);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(8px);
   border-radius: 12px;
   transition: all 0.3s ease;
@@ -279,6 +282,18 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
+}
+
+.list {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+}
+
+.list-item {
+  margin-bottom: 8px;
+  color: #9ca3af;
+  list-style: none;
 }
 
 .team-grid {
@@ -374,6 +389,7 @@ body {
 .project-card {
   background: rgba(30, 41, 59, 0.5);
   border: 1px solid rgba(71, 85, 105, 0.3);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(8px);
   border-radius: 12px;
   padding: 32px;
@@ -389,6 +405,13 @@ body {
   font-weight: bold;
   color: #ef4444;
   margin-bottom: 16px;
+}
+
+.subtitle {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ef4444;
+  margin-bottom: 24px;
 }
 
 .project-description {
@@ -437,6 +460,22 @@ body {
   font-size: 0.875rem;
 }
 
+.contributor {
+  font-size: 1.125rem; 
+  font-weight: 400; 
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.contributor-tag {
+  padding: 4px 12px;
+  background: rgba(71, 85, 105, 0.8);
+  color: #ff0000;
+  border-radius: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
 .features-list {
   list-style: none;
   color: #9ca3af;
@@ -457,6 +496,7 @@ body {
   position: relative;
   z-index: 10;
   background: rgba(15, 23, 42, 0.8);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(8px);
   border-top: 1px solid rgba(71, 85, 105, 0.3);
   padding: 48px 32px;
@@ -485,6 +525,11 @@ body {
 
 .footer-link:hover {
   color: white;
+}
+
+.text {
+  color: #6b7280;
+  font-size: 1.125rem;
 }
 
 .hidden {
@@ -522,6 +567,7 @@ body {
 .legal-card {
   background: rgba(30, 41, 59, 0.5);
   border: 1px solid rgba(71, 85, 105, 0.3);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(8px);
   border-radius: 12px;
   padding: 48px;
@@ -612,6 +658,7 @@ body {
 /* Utility Classes */
 .text-center {
   text-align: center;
+  padding-top: 48px;
 }
 .mb-4 {
   margin-bottom: 16px;
@@ -622,10 +669,15 @@ body {
 .mb-8 {
   margin-bottom: 32px;
 }
-.space-y-4 > * + * {
-  margin-top: 16px;
+
+.space-y-4 {
+  margin-top: 24px;
+  color: #9ca3af;
+  font-size: 1.125rem;
+  list-style-type: none;
 }
-.space-y-6 > * + * {
+
+.space-y-6 {
   margin-top: 24px;
 }
 
