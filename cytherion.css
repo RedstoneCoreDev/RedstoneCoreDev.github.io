@@ -1,0 +1,97 @@
+        /* Grundstil */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Orbitron', sans-serif;
+            background: #0a0a0a; /* schwarz */
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Hintergrund-Animation */
+        .background {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 30% 30%, #ff0000 0%, transparent 40%),
+                        radial-gradient(circle at 70% 70%, #8000ff 0%, transparent 50%),
+                        radial-gradient(circle at 50% 50%, #0000ff 0%, transparent 60%);
+            animation: moveBG 20s infinite linear;
+        }
+
+        @keyframes moveBG {
+            0% {background-position: 0 0, 100% 100%, 50% 50%;}
+            50% {background-position: 100% 50%, 0% 100%, 75% 25%;}
+            100% {background-position: 0 0, 100% 100%, 50% 50%;}
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px 20px 20px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            color: #ff4b4b; /* Cytherion Rot */
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: #b3b3ff; /* Lila/Blau Akzent */
+        }
+
+        .bots {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 40px 0;
+            gap: 20px;
+        }
+
+        .bot-card {
+            background: #111;
+            border: 2px solid #8000ff;
+            border-radius: 15px;
+            width: 220px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .bot-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #ff4b4b, 0 0 30px #8000ff;
+        }
+
+        .bot-card h2 {
+            color: #ff4b4b;
+        }
+
+        .bot-card a {
+            text-decoration: none;
+            color: #00ffff;
+            font-weight: bold;
+        }
+
+        .back-button {
+            margin: 30px 0px 0px 30px;
+            background: #111;
+            border: 2px solid #ff4b4b;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .red {
+            color: #ff4b4b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+            color: #888;
+        }

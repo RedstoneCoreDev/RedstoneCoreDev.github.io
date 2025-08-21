@@ -5,20 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RedstoneCoreDev</title>
     <link rel="icon" type="image/x-icon" href="Red.jpg">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Orbitron', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+        }
+
+        header {
+            background: linear-gradient(90deg, #ff4b4b, #8000ff, #00bfff);
+            padding: 20px 0;
+        }
+
+        .header-title h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #fff;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin: 70px auto;
+            z-index: 1;
+        }
+
+        .nav-button {
+            background: #111;
+            border: 2px solid #ff4b4b;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .nav-button:hover {
+            background: #8700a1;
+            border-color: #7700d8;
+            color: #000;
+        }
+
+        .note {
+            margin: 20px;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            font-size: 0.9em;
+            color: #aaa;
+        }
+
+        footer {
+            background: #111;
+            padding: 20px;
+            text-align: center;
+            color: #888;
+            margin-top: 50px;
+        }
+
+        a {
+            color: #00bfff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <header class="header" id="header">
-        <div class="header-content">
-            <nav class="nav">
-                <button class="nav-button" onclick="location.href='home-en.html'">English</button>
-                <button class="nav-button" onclick="location.href='home-de.html'">Deutsch</button>
-            </nav>
-            <div class="header-title">
-                <h1>RedstoneCoreDev</h1>
-            </div>
+        <div class="header-title">
+            <h1>RedstoneCoreDev</h1>
         </div>
     </header>
+
+    <div>
+        <nav class="nav">
+            <button class="nav-button" onclick="location.href='home-en.html'">English</button>
+            <button class="nav-button" onclick="location.href='home-de.html'">Deutsch</button>
+        </nav>
+        <p class="note">Note: This website is a work in progress and the English site and German site are not synced.</p>
+        <p class="note">Merke: Diese Website ist in Arbeit und die englische und die deutsche Seite sind nicht synchronisiert.</p>
+    </div>
 
     <footer>
         <p>Contact / Kontakt</p>
@@ -26,6 +109,5 @@
         <p>Sie erreichen mich unter <a href="mailto:redstone9263@gmail.com">redstone9263@gmail.com</a> oder <a href="mailto:RedstoneCoreDev#twoblade.com">RedstoneCoreDev#twoblade.com</a>.</p>
         <p>&copy; 2025 RedstoneCoreDev</p>
     </footer>
-    <!--<script src="index.js"></script>-->
 </body>
 </html>
