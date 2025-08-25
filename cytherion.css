@@ -1,5 +1,4 @@
-
-        body {
+body {
             margin: 0;
             padding: 0;
             font-family: 'Orbitron', sans-serif;
@@ -26,21 +25,33 @@
         }
 
         header {
-            text-align: center;
-            padding: 0px 20px 20px 20px;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            padding: 20px;
+            gap: 0;
         }
 
         header h1 {
+            margin: 0;
             font-size: 3em;
             color: #ff4b4b;
         }
 
         header p {
+            margin: 0;
             font-size: 1.2em;
             color: #b3b3ff;
+        }
+
+        .header-center {
+            flex: 1;
+        }
+
+        .header-spacer {
+            width: 120px; /* Same or similar width as .back-button for balance */
         }
 
         .bots {
@@ -76,7 +87,7 @@
         }
 
         .back-button {
-            margin: 30px 0px 0px 30px;
+            margin: 0;
             background: #111;
             border: 2px solid #ff4b4b;
             color: #fff;
@@ -86,6 +97,8 @@
             font-weight: bold;
             transition: 0.3s;
             display: flex;
+            align-items: center;
+            justify-content: left;
         }
 
         .red {
@@ -95,6 +108,13 @@
         .doc-link {
             text-align: center;
             margin: 20px 0;
+        }
+
+        .doc-link a {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: bold;
+            text-decoration: none;
         }
 
         footer {
