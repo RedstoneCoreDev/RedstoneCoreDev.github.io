@@ -7,6 +7,7 @@
     <title>Cytherion Documentation & Policies</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="cytherion.css">
+    <link rel="icon" type="image/x-icon" href="img/Red.jpg">
     <style>
         body {
             display: flex;
@@ -18,7 +19,7 @@
             width: 250px;
             background: #111;
             color: #fff;
-            padding: 30px 20px 20px 20px;
+            padding: 80px 20px 20px 20px;
             box-sizing: border-box;
             transition: transform 0.3s;
             position: fixed;
@@ -94,6 +95,21 @@
             color: #ff4b4b;
         }
 
+        .back {
+            margin: 0px 0px 30px;
+            background: #111;
+            border: 2px solid #ff4b4b;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: left;
+        }
+
         @media (max-width: 700px) {
             .main-content {
                 margin-left: 0;
@@ -111,6 +127,7 @@
 <body>
     <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
     <nav class="sidebar closed" id="sidebar">
+        <button class="back" onclick="window.location.href='cytherion.html'">← Back</button>
         <h2>Contents</h2>
         <ul>
             <li><a href="#documentation" onclick="toggleSidebar()">Documentation</a></li>
@@ -158,27 +175,20 @@
         </p>
 
         <h2 id="terms">Terms of Use</h2>
-        <p>
-            By using Cytherion and its bots, you agree to the following terms:
+        <p>By using Cytherion and its bots, you agree to the following terms:
         <ul>
             <li>You must comply with Discord's Terms of Service and Community Guidelines.</li>
             <li>Do not use the bots for illegal or malicious activities.</li>
             <li>We reserve the right to update or remove features at any time.</li>
             <li>Abuse of the bots may result in a ban from our services.</li>
+            <li>Severe violations such as scamming, or even joking about suicide or murder threats, will also result in
+                a ban in order to keep the community safe.</li>
         </ul>
         </p>
 
         <h2 id="privacy">Privacy Policy</h2>
-        <p>
-            Your privacy is important to us. Here is how we handle your data:
-        <ul>
-            <li>We only collect data necessary for the bots to function (e.g., user IDs, messages for moderation).
-            </li>
-            <li>Data is not shared with third parties except as required by law.</li>
-            <li>You can request deletion of your data by contacting the Cytherion team.</li>
-            <li>We use industry-standard security practices to protect your information.</li>
-        </ul>
-        </p>
+        <p>I only collect data necessary for the bots to function (e.g., user IDs, messages for moderation).</p>
+        <p>I do not store any personal information beyond what is required for bot functionality.</p>
     </div>
     <script>
         function toggleSidebar() {
@@ -187,7 +197,6 @@
             sidebar.classList.toggle('closed');
             main.classList.toggle('full');
         }
-        // Optional: Smooth scroll for anchor links
         document.querySelectorAll('.sidebar a').forEach(link => {
             link.addEventListener('click', function (e) {
                 const target = document.querySelector(this.getAttribute('href'));
