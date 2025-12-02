@@ -37,7 +37,7 @@ body {
 #boogle-title { display: inline-flex; align-items: center; gap: 0.6rem; }
 #boogle-title .logo { font-weight: 800; font-size: 3rem; display: inline-flex; align-items: center; gap: .35rem; line-height: 1; }
 #boogle-title .logo .santa-hat { display: none; font-size: 0.9rem; transform-origin: 50% 80%; }
-#boogle-title .title-text { display: block; font-weight: 700; font-size: 2.1rem; color: #e68c9e; margin-left: 0; }
+#boogle-title .title-text { display: flex; font-weight: 700; font-size: 2.1rem; color: #e68c9e; margin-left: 0; }
 
 /* subtle bobbing animation to make the title lively */
 @keyframes title-bob { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
@@ -46,7 +46,9 @@ body {
 /* powdered, sparkly letters for holiday context (only active in December via .christmas on body) */
 body.christmas #boogle-title .logo {
     background: linear-gradient(90deg,#fff4d6,#ffd1e6 40%, #d9f5ff 80%);
-    -webkit-background-clip: text; color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
     text-shadow: 0 6px 24px rgba(0,0,0,0.15);
 }
 body.christmas #boogle-title .logo .santa-hat { display: inline-block; margin-left: -2px; transform: translateY(-3px) rotate(-8deg); animation: hat-bounce 3s ease-in-out infinite; }
@@ -54,9 +56,9 @@ body.christmas #boogle-title .logo .santa-hat { display: inline-block; margin-le
 @keyframes hat-bounce { 0% { transform: translateY(-2px) rotate(-6deg); } 50% { transform: translateY(3px) rotate(6deg); } 100% { transform: translateY(-2px) rotate(-6deg); } }
 
 /* tiny garland effect above the title in Christmas mode */
-body.christmas header::before{
+.stuff{
     content: '';
-    display:block;
+    display:flex;
     width:100%;
     height:12px;
     margin-bottom:8px;

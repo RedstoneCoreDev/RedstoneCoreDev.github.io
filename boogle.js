@@ -16,13 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const headerTitle = document.getElementById('boogle-title');
             if (headerTitle) {
                 const titleText = headerTitle.querySelector('.title-text');
-                if (titleText) titleText.textContent = 'Search';
+                if (titleText) titleText.textContent = 'Search page';
             }
 
             // create decorative lights & falling snow
             (function createDecorations(){
                 // lights
-                const lightsEl = document.getElementById('lights');
+                /*const lightsEl = document.getElementById('lights');
                 if (lightsEl) {
                     // create a string of bulbs across the top
                     const colors = ['#ff6b6b','#ffd166','#9be7ff','#a6ffb0','#ffb7f5'];
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         wrap.appendChild(bulb);
                         lightsEl.appendChild(wrap);
                     }
-                }
+                }*/
 
                 // falling snow (improved)
                 const snowEl = document.getElementById('snow');

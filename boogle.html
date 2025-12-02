@@ -11,16 +11,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!--<div id="lights" class="lights" aria-hidden="true"></div>-->
-    <!--<div id="snow" class="snow" aria-hidden="true"></div>-->
+    <div id="lights" class="lights" aria-hidden="true"></div>
+    <div id="snow" class="snow" aria-hidden="true"></div>
     
     <div class="container">
         <header>
-            <div class="title-wrap">
-                <h1 id="boogle-title"><span class="logo">Boogle<span class="santa-hat" aria-hidden="true">🎅</span></span> <span class="title-text">Search</span></h1>
-            </div>
             <div class="header-controls">
-                <button id="settings-btn" class="settings-btn" title="Settings" aria-haspopup="true" aria-controls="settings-panel">⚙️</button>
+                <h1 id="boogle-title"> <span class="logo">Boogle</span> <span class="title-text">Search page</span> </h1> <div class="stuff"></div><button id="settings-btn" class="settings-btn" title="Settings" aria-haspopup="true" aria-controls="settings-panel">⚙️</button>
             </div>
         </header>
         <main>
@@ -31,7 +28,7 @@
                         <option value="google">Google</option>
                     </select>
                     <div class="search-bar">
-                        <input type="text" id="search-input" placeholder="Search Boogle..." autocomplete="off" aria-autocomplete="list">
+                        <input type="text" id="search-input" placeholder="Search with Boogle..." autocomplete="off" aria-autocomplete="list">
                         <div id="history-dropdown" class="history-dropdown" role="listbox" aria-label="Search history" hidden></div>
                         <button id="search-button">Search</button>
                     </div>
