@@ -11,9 +11,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!--<div id="lights" class="lights" aria-hidden="true"></div>-->
+    <!--<div id="snow" class="snow" aria-hidden="true"></div>-->
+    
     <div class="container">
         <header>
-            <h1>Boogle Search</h1>
+            <div class="title-wrap">
+                <h1 id="boogle-title"><span class="logo">Boogle<span class="santa-hat" aria-hidden="true">🎅</span></span> <span class="title-text">Search</span></h1>
+            </div>
+            <div class="header-controls">
+                <button id="settings-btn" class="settings-btn" title="Settings" aria-haspopup="true" aria-controls="settings-panel">⚙️</button>
+            </div>
         </header>
         <main>
             <div class="search-container">
@@ -23,12 +31,36 @@
                         <option value="google">Google</option>
                     </select>
                     <div class="search-bar">
-                        <input type="text" id="search-input" placeholder="Search Boogle..." autocomplete="off">
+                        <input type="text" id="search-input" placeholder="Search Boogle..." autocomplete="off" aria-autocomplete="list">
+                        <div id="history-dropdown" class="history-dropdown" role="listbox" aria-label="Search history" hidden></div>
                         <button id="search-button">Search</button>
                     </div>
                 </div>
                 <div class="buttons">
                     <button class="fancy-button" id="feeling">I'm Feeling Boogley</button>
+                </div>
+
+                <!-- Settings panel - shown when user clicks the settings button -->
+                <div id="settings-panel" class="settings-panel" aria-hidden="true" hidden>
+                    <h2>Settings</h2>
+                    <div class="setting-row">
+                        <label for="open-mode">When searching:</label>
+                        <select id="open-mode">
+                            <option value="same">Open in same tab</option>
+                            <option value="new">Open in new tab</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <label for="enable-history">Search history:</label>
+                        <select id="enable-history">
+                            <option value="on">Enabled</option>
+                            <option value="off">Disabled</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <button id="clear-history" class="fancy-button" title="Clear search history">Clear History</button>
+                        <button id="settings-close" class="fancy-button">Back to Search</button>
+                    </div>
                 </div>
 
                 <div id="results" class="results"></div>

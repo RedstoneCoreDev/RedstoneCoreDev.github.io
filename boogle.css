@@ -29,7 +29,195 @@ body {
     box-shadow: 0 8px 36px rgba(0,0,0,0.18);
     -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
+    position: relative; /* keep above snow */
+    z-index: 2;
 }
+
+/* Lively title + optional Christmas decorations */
+#boogle-title { display: inline-flex; align-items: center; gap: 0.6rem; }
+#boogle-title .logo { font-weight: 800; font-size: 3rem; display: inline-flex; align-items: center; gap: .35rem; line-height: 1; }
+#boogle-title .logo .santa-hat { display: none; font-size: 0.9rem; transform-origin: 50% 80%; }
+#boogle-title .title-text { display: block; font-weight: 700; font-size: 2.1rem; color: #e68c9e; margin-left: 0; }
+
+/* subtle bobbing animation to make the title lively */
+@keyframes title-bob { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
+#boogle-title .logo { animation: title-bob 3.8s ease-in-out infinite; }
+
+/* powdered, sparkly letters for holiday context (only active in December via .christmas on body) */
+body.christmas #boogle-title .logo {
+    background: linear-gradient(90deg,#fff4d6,#ffd1e6 40%, #d9f5ff 80%);
+    -webkit-background-clip: text; color: transparent;
+    text-shadow: 0 6px 24px rgba(0,0,0,0.15);
+}
+body.christmas #boogle-title .logo .santa-hat { display: inline-block; margin-left: -2px; transform: translateY(-3px) rotate(-8deg); animation: hat-bounce 3s ease-in-out infinite; }
+
+@keyframes hat-bounce { 0% { transform: translateY(-2px) rotate(-6deg); } 50% { transform: translateY(3px) rotate(6deg); } 100% { transform: translateY(-2px) rotate(-6deg); } }
+
+/* tiny garland effect above the title in Christmas mode */
+body.christmas header::before{
+    content: '';
+    display:block;
+    width:100%;
+    height:12px;
+    margin-bottom:8px;
+    background: radial-gradient(circle at 8% 50%, #ff6b6b 6px, transparent 7px), radial-gradient(circle at 28% 50%, #ffd166 6px, transparent 7px), radial-gradient(circle at 48% 50%, #9be7ff 6px, transparent 7px), radial-gradient(circle at 68% 50%, #a6ffb0 6px, transparent 7px), radial-gradient(circle at 88% 50%, #ffb7f5 6px, transparent 7px);
+    background-repeat: repeat-x;
+    background-size: 120px 12px;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
+}
+
+/* Snow background / snowflakes */
+.snow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+.lights {
+    position: fixed;
+    top: 10px; /* hang across the top */
+    left: 0;
+    right: 0;
+    height: 44px;
+    pointer-events: none;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+.lights .bulb {
+    width: 14px;
+    height: 22px;
+    border-radius: 8px 8px 6px 6px;
+    background: #fff;
+    display: inline-block;
+    box-shadow: 0 0 10px rgba(255,255,255,0.08), 0 3px 10px rgba(0,0,0,0.2) inset;
+    transform-origin: center bottom;
+    filter: drop-shadow(0 6px 8px rgba(0,0,0,0.25));
+}
+.lights .bulb::before{
+    content: '';
+    display:block;
+    width: 4px;
+    height: 6px;
+    margin: -6px auto 6px;
+    background: rgba(0,0,0,0.18);
+    border-radius: 2px;
+}
+.lights .bulb.glow { animation: bulb-glow 2.4s ease-in-out infinite; }
+@keyframes bulb-glow { 0% { transform: translateY(0) scale(1); box-shadow: 0 0 6px rgba(255,255,255,0.02); } 50% { transform: translateY(-3px) scale(1.03); box-shadow: 0 0 14px rgba(255,255,255,0.22); } 100% { transform: translateY(0) scale(1); box-shadow: 0 0 6px rgba(255,255,255,0.02); } }
+
+/* show lights and snow only in Christmas mode */
+.lights { display: none; }
+body.christmas .lights { display: flex; }
+
+.snow { display: none; }
+body.christmas .snow { display: block; }
+
+/* more realistic snow: text flake shape so it looks like actual snow */
+.snowflake {
+    position: absolute;
+    top: -10vh;
+    color: rgba(255,255,255,0.92);
+    font-family: serif, 'Times New Roman', system-ui;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    opacity: 0.9;
+    will-change: transform;
+    animation-name: fall, sway, spin;
+    animation-timing-function: linear, ease-in-out, linear;
+    animation-iteration-count: infinite, infinite, infinite;
+    pointer-events: none;
+}
+
+/* hide history dropdown when hidden attribute is present */
+.history-dropdown[hidden] { display: none; }
+
+/* ensure dropdown has a little min size so it's not a tiny line */
+.history-dropdown { min-height: 48px; padding: 8px 12px; }
+/* snowflake shapes use text glyphs (see first .snowflake block above) */
+
+@keyframes fall { to { transform: translateY(120vh); } }
+@keyframes sway { 0% { transform: translateX(0); } 50% { transform: translateX(16px); } 100% { transform: translateX(0); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* make sure mobile looks okay */
+@media (max-width:700px){
+    #boogle-title .title-text { font-size: 1.4rem; }
+    #boogle-title .logo { font-size: 2rem; }
+}
+
+/* header layout and settings button */
+header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end; /* keep settings aligned with the lower line (the 'Search' line) */
+    gap: 12px;
+    padding-bottom: 12px;
+}
+
+.settings-btn {
+    background: rgba(255,255,255,0.06);
+    border: 2px solid rgba(255,255,255,0.08);
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.05rem;
+}
+.settings-btn:hover { background: rgba(255,255,255,0.12); transform: translateY(-1px); }
+
+.header-controls { display:flex; align-items:flex-end; }
+
+.search-bar { position: relative; }
+
+/* make search container children take full width so the settings panel replaces search UI cleanly */
+.search-container { width: 100%; align-items: stretch; }
+.search-container .settings-panel { display: none; width: 100%; max-width: 860px; margin: 12px auto 0; }
+
+.history-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.98);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    padding: 8px;
+    z-index: 10;
+    display: grid;
+    gap: 8px;
+    color: #111;
+    width: 100%;
+    max-width: 640px;
+}
+.history-section { font-size: 0.85rem; color: rgba(0,0,0,0.7); padding: 4px 8px; border-radius:8px; }
+.history-item { background: rgba(0,0,0,0.03); padding: 8px; border-radius:8px; cursor: pointer; display:flex; justify-content:space-between; align-items:center; }
+.history-item:hover { background: rgba(0,0,0,0.06); }
+.history-count { font-size:0.8rem; color: rgba(0,0,0,0.5); margin-left:8px; }
+
+.settings-panel { background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.98)); border-radius:12px; padding:24px; margin-top:18px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.settings-panel h2 { margin:0 0 12px 0; }
+.setting-row { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.setting-row label { min-width: 150px; }
+
+/* small adjustments to ensure the search container looks correct when settings is active */
+.settings-panel[hidden] { display:none; }
+
+/* When the search container is in 'settings' mode hide the primary search UI */
+.search-container.settings-active .search-top,
+.search-container.settings-active .buttons,
+.search-container.settings-active #results {
+    display: none;
+}
+
+.search-container.settings-active .settings-panel { display: block; }
+
+/* ensure results stay in flow and footer remains after content */
+.results { position: relative; z-index: 2; }
+
+/* ensure footer remains below the container not overlapped by internal panels */
+footer { position: relative; z-index: 1; }
 
 h1 {
     font-size: 3rem;
