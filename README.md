@@ -18,6 +18,6 @@ This project is licensed for fun and personal use only. Please do not use it for
 
 Enjoy your search with Boogle!
 
-# Important information about the name
+### Important information about the name
 The name sounds similar to Google but came from someone named like this on Discord.
 This should not imitate Google but instead be a project to learn, have fun or something else.
