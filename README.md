@@ -12,15 +12,12 @@ Boogle features a sleek and stylish search page that allows users to search the 
 - **assets/fonts**: A directory containing custom font files to enhance the typography of the Boogle page.
 - **assets/icons**: A directory for icon files used in the UI, such as buttons and other elements.
 
-## Contributing
-
-Feel free to contribute to the Boogle project by adding new features, improving styles, or enhancing functionality. Since this project is for fun, creativity is encouraged!
-
 ## License
 
 This project is licensed for fun and personal use only. Please do not use it for commercial purposes.
 
 Enjoy your search with Boogle!
 
+# Important information about the name
 The name sounds similar to Google but came from someone named like this on Discord.
 This should not imitate Google but instead be a project to learn, have fun or something else.
