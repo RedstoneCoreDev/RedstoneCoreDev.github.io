@@ -493,7 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'Always glad to help! Enjoy using the Boogle Search page!',
             'My pleasure! Let me know if ya need anything else!'
         ],
-        'bows': [
+        'bow|bows': [
             'I like bows!',
             'Bows are so pretty!',
             'Bows are fun to make!'
