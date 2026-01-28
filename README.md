@@ -2,6 +2,8 @@
 
 Welcome to Boogle, a fun and whimsical take on the classic search engine experience! This project is designed for entertainment purposes and is not intended for commercial use.
 
+Currently I am making a few changes. I uploaded an unfinished version for everyone who wants to see the progress.
+
 ## Project Overview
 
 Boogle features a sleek and stylish search page that allows users to search the web in a unique and engaging way. The project includes:
