@@ -118,21 +118,27 @@ body.christmas #boogle-title .logo .santa-hat { display: inline-block; margin-le
 body.christmas .lights { display: flex; }
 
 .snow { display: none; }
-body.christmas .snow { display: block; pointer-events: none; z-index: 1; }
+body.christmas .snow { display: block; pointer-events: none; z-index: 6; /* above .container (z-index:2) so flakes are visible */ }
 
 /* more realistic snow: text flake shape so it looks like actual snow */
 .snowflake {
+    will-change: top, transform;
     position: fixed;
-    top: -10vh;
-    color: rgba(255,255,255,0.92);
+    top: 0; /* start at top of viewport; fall animation moves it from slightly above into view */
+    color: rgba(255,255,255,0.98);
     font-family: serif, 'Times New Roman', system-ui;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    opacity: 0.9;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.22);
+    opacity: 0.95;
     will-change: transform;
     animation-name: fall, sway, spin;
+    /* sensible default durations/delays so flakes move even if JS doesn't override them */
+    animation-duration: 14s, 4s, 8s;
+    animation-delay: 0s, 0s, 0s;
     animation-timing-function: linear, ease-in-out, linear;
     animation-iteration-count: infinite, infinite, infinite;
+    animation-fill-mode: none;
     pointer-events: none;
+    mix-blend-mode: screen; /* helps flakes show up over different backgrounds */
 }
 
 /* hide history dropdown when hidden attribute is present */
@@ -143,13 +149,16 @@ body.christmas .snow { display: block; pointer-events: none; z-index: 1; }
 /* snowflake shapes use text glyphs (see first .snowflake block above) */
 
 @keyframes fall { 
-    0% { transform: translateY(-10vh); opacity: 0; }
+    0% { top: -10vh; opacity: 0; }
     5% { opacity: 0.8; }
     95% { opacity: 0.6; }
-    100% { transform: translateY(120vh); opacity: 0; }
+    100% { top: 120vh; opacity: 0; }
 }
-@keyframes sway { 0% { transform: translateX(0); } 50% { transform: translateX(16px); } 100% { transform: translateX(0); } }
-@keyframes spin { to { transform: rotate(360deg); } }
+
+@keyframes sway { 
+    0%, 100% { transform: translateX(0px) rotate(0deg); } 
+    50% { transform: translateX(30px) rotate(180deg); } 
+}
 
 /* make sure mobile looks okay */
 @media (max-width:700px){
@@ -543,57 +552,138 @@ footer {
 }
 
 /* AI Chatbot Styles */
+:root { --ai-width: 340px; --ai-gap: 16px; /* increased so chat is noticeable and shifts page visually */ }
 .ai-panel {
-    position: absolute;
-    top: 70px;
-    right: 36px;
-    width: 340px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0; /* dock from top to bottom of viewport */
+    width: var(--ai-width);
     max-width: 90vw;
-    background: rgba(255,255,255,0.98);
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    /* full viewport height ensured by top/bottom stretch */
+    border-radius: 0 0 0 0;
+    box-shadow: -8px 0 32px rgba(0,0,0,0.45);
     display: flex;
     flex-direction: column;
-    max-height: 500px;
     overflow: hidden;
-    color: #111;
+    color: #e6f0ff;
     z-index: 1000;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: none; /* instant pop — no slide animation */
+    will-change: auto;
 }
 
-.ai-panel[hidden] {
-    display: none;
+/* Active state (instant show) */
+.ai-panel.active {
+    transform: translateX(0);
+    opacity: 1;
 }
+
+/* keep [hidden] useful for initial load */
+.ai-panel[hidden] { display: none; }
+
+/* When AI is open, we'll resize the main container (desktop) instead of adding body padding */
+body.ai-open {
+    overflow-x: hidden; /* avoid scroll when layout changes */
+}
+
+@media (min-width: 900px) {
+    /* On wide screens when AI is open we shrink the main `.container` so the fixed
+       `.ai-panel` can sit outside at the right edge and the site remains centered.
+       The math keeps the same visual max-width (960px) but subtracts the panel width. */
+    .container {
+        transition: none; /* immediate resize */
+    }
+    body.ai-open .container {
+    margin-right: calc(var(--ai-width) + 100px); /* Push container left */
+    margin-left: auto;
+    }
+}
+
+/* On smaller screens keep the panel as overlay */
+@media (max-width: 899px) {
+    .ai-panel {
+        right: 10px;
+        width: calc(100vw - 20px);
+        height: auto;
+        border-radius: 12px;
+        transform: translateY(-10px) scale(0.98);
+        opacity: 0;
+    }
+    .ai-panel.active {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+} 
 
 .ai-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px;
-    border-bottom: 2px solid var(--primary);
-    background: linear-gradient(135deg, rgba(237,163,178,0.1), rgba(78,175,234,0.1));
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
 }
 
 .ai-header h3 {
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 700;
-    color: #111;
+    color: #cfe8ff;
 }
 
 .ai-close {
-    background: none;
+    background: rgba(255,255,255,0.02);
     border: none;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
-    color: #111;
-    padding: 4px 6px;
-    border-radius: 4px;
-    transition: background 0.2s;
+    color: #e6f0ff;
+    padding: 6px 8px;
+    border-radius: 6px;
+    transition: background 0.18s;
 }
 
 .ai-close:hover {
-    background: rgba(0,0,0,0.08);
+    background: rgba(255,255,255,0.06);
 }
+
+.ai-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: transparent;
+}
+
+.ai-message {
+    padding: 10px 12px;
+    border-radius: 26px;
+    max-width: 100%;
+    word-wrap: break-word;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    animation: slideIn 0.28s ease-out;
+}
+
+.ai-message.bot {
+    align-self: flex-start;
+    background: rgba(255,255,255,0.95);
+    color: #021023;
+    border-radius: 28px;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.25), 0 0 18px rgba(255,255,255,0.04) inset;
+}
+
+.ai-message.user {
+    align-self: flex-end;
+    background: rgba(255,255,255,0.12);
+    color: #eaf6ff;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.04);
+    backdrop-filter: blur(4px);
+} 
 
 .ai-messages {
     flex: 1;
@@ -640,45 +730,47 @@ footer {
 .ai-input-area {
     display: flex;
     gap: 8px;
-    padding: 12px;
-    border-top: 1px solid rgba(0,0,0,0.1);
-    background: rgba(255,255,255,0.5);
+    padding: 10px;
+    border-top: 1px solid rgba(255,255,255,0.03);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
 }
 
 #ai-input {
     flex: 1;
     padding: 8px 12px;
-    border: 1px solid var(--primary);
+    border: 1px solid rgba(255,255,255,0.06);
     border-radius: 6px;
     font-size: 0.9rem;
     outline: none;
-    transition: border-color 0.2s;
+    background: rgba(0,0,0,0.12);
+    color: #eaf6ff;
+    transition: border-color 0.15s;
 }
 
 #ai-input:focus {
-    border-color: var(--link);
+    border-color: rgba(255,255,255,0.12);
 }
 
 #ai-send {
-    padding: 8px 16px;
-    background: var(--primary);
-    color: white;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.06);
+    color: #e6f0ff;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     font-weight: 600;
     font-size: 0.85rem;
-    transition: background 0.2s, transform 0.1s;
+    transition: background 0.15s, transform 0.08s;
 }
 
 #ai-send:hover {
-    background: var(--secondary);
+    background: rgba(255,255,255,0.12);
     transform: translateY(-1px);
 }
 
 #ai-send:active {
     transform: translateY(0);
-}
+} 
 
 /* Small screens */
 @media (max-width:480px){

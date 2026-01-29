@@ -87,14 +87,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     flake.textContent = '❆';
                     const size = 10 + Math.random() * 22; // font size in px
                     flake.style.fontSize = `${size}px`;
-                    flake.style.left = `${Math.random() * 100}vw`;
+                    flake.style.left = `${Math.random() * 100}%`; // Changed from vw to %
+                    flake.style.top = `-10vh`; // Start above viewport
                     // staggered timings
-                    const fallDur = 8 + Math.random() * 20; // seconds
-                    const swayDur = 3 + Math.random() * 4; // seconds
-                    const spinDur = 6 + Math.random() * 12; // seconds
-                    flake.style.animationDuration = `${fallDur}s, ${swayDur}s, ${spinDur}s`;
-                    flake.style.animationDelay = `${Math.random() * 6}s, 0s, 0s`;
-                    flake.style.opacity = `${0.5 + Math.random() * 0.6}`;
+                    const fallDur = 8 + Math.random() * 200; // seconds
+                    const swayDur = 3 + Math.random() * 40; // seconds
+                    const spinDur = 6 + Math.random() * 120; // seconds
+                    const fallDelay = Math.random() * 30; // keep initial delay shorter so flakes appear quickly
+                    // apply full animation shorthand so durations/delays are guaranteed to align
+                    flake.style.animation = `fall ${fallDur}s linear ${fallDelay}s infinite, sway ${swayDur}s ease-in-out 0s infinite`;
+                    flake.style.opacity = `${0.6 + Math.random() * 0.4}`;
                     snowEl.appendChild(flake);
                 }
             })();
@@ -440,6 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const aiInput = document.getElementById('ai-input');
     const aiSendBtn = document.getElementById('ai-send');
     const aiMessages = document.getElementById('ai-messages');
+    let aiInitialized = false; 
 
     // Fixed AI responses based on keywords
     const aiResponses = {
@@ -459,7 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'Searching is easy - type what ya\'re looking for and let Boogle do the work!'
         ],
         'google|duckduckgo|engine': [
-            'Boogle supports both Google and DuckDuckGo! Switch between them using the engine selector.',
+            'The Boogle Search page redirects to either Google or DuckDuckGo! Switch between them using the engine selector.',
             'Ya can choose your preferred search engine from the dropdown. Try DuckDuckGo for privacy-focused results!',
             'Google gives broad results, DuckDuckGo prioritizes privacy. Pick your favorite!'
         ],
@@ -489,14 +492,57 @@ document.addEventListener('DOMContentLoaded', () => {
             'Boogle Search page is a custom search interface made just for fun and has no use besides being fancy. Not affiliated with Google, despite the name!'
         ],
         'thanks|thank you|appreciate': [
-            'Ya\'re welcome! Happy searching! 😊',
+            'Ya\'re welcome! Happy searching!',
             'Always glad to help! Enjoy using the Boogle Search page!',
             'My pleasure! Let me know if ya need anything else!'
         ],
-        'bow|bows': [
+        'crossbow|crossbows': [
+            'Crossbows are not cool!',
+            'Bows are better than crossbows!',
+            'Bows bows bows!'
+        ],
+        'bows|bow': [
             'I like bows!',
             'Bows are so pretty!',
             'Bows are fun to make!'
+        ],
+        'real': [
+            'No, the Boogle Search page is just for fun and is fancy! Has no other use but... its fancy, so its better!',
+        ],
+        'redirect|forward|send': [
+            'Ya can search for anything and I\'ll help point ya in the right direction!',
+            'Just type what ya\'re looking for and Boogle will search it for ya!',
+            'Tell me what ya want to find and we\'ll search together!'
+        ],
+        'features|what can': [
+            'Boogle has: dual search engines (Google & DuckDuckGo), search history, seasonal decorations, and me - Arg the AI!',
+            'Features include instant answers, history tracking, customizable settings, and a "Feeling Boogley" button for fun!',
+            'Boogle offers fast searching, local history storage, privacy protection, and a festive interface!'
+        ],
+        'open mode|tab|window': [
+            'In Settings, ya can choose to open results in a new tab or the same tab - whatever ya prefer!',
+            'The "Open Mode" setting lets ya decide if searches open in a new tab or replace the current page.',
+            'Customize whether results open in a new tab or the current one!'
+        ],
+        'instant|answer': [
+            'DuckDuckGo provides instant answers for some queries - like definitions, facts, or summaries!',
+            'When ya search, Boogle tries to show ya quick instant answers before opening the full search.',
+            'Some searches give ya instant results right on the page!'
+        ],
+        'decoration|snow|christmas|winter': [
+            'During winter months (November-February), Boogle gets festive with falling snow and decorative lights!',
+            'Boogle celebrates the season! In winter, ya\'ll see snowflakes and twinkling lights.',
+            'The seasonal decorations appear automatically in winter - enjoy the cozy vibes!'
+        ],
+        'keyboard|shortcut': [
+            'Press Enter to search, Escape to close the history dropdown, or Tab to navigate!',
+            'Ya can use Enter to search and Escape to hide suggestions. Pretty straightforward!',
+            'Keyboard shortcuts: Enter to search, Escape to close dropdowns!'
+        ],
+        'disclaimer': [
+            'The disclaimer appears once and ya can accept it. It won\'t bother ya again!',
+            'Once ya accept the disclaimer, it\'s stored and won\'t pop up again.',
+            'Just click Accept on the disclaimer banner and ya\'re good to go!'
         ],
         'moon': [
             'The moon is beautiful tonight.',
@@ -504,8 +550,8 @@ document.addEventListener('DOMContentLoaded', () => {
             'Moonlight is so calming.'
         ],
         'good night|sleep': [
-            'Good night! Sweet dreams! 🌙',
-            'Time to rest! See ya later! 😴',
+            'Good night! Sweet dreams!',
+            'Time to rest! See ya later!',
             'Sleep well and recharge for tomorrow!'
         ]
     };
@@ -561,15 +607,39 @@ document.addEventListener('DOMContentLoaded', () => {
     // AI Chatbot event listeners
     if (aiToggleBtn && aiPanel && aiCloseBtn && aiSendBtn && aiInput) {
         aiToggleBtn.addEventListener('click', () => {
-            const isHidden = aiPanel.hidden;
-            aiPanel.hidden = !isHidden;
-            aiPanel.setAttribute('aria-hidden', isHidden);
-            if (!isHidden) aiInput.focus();
+            const isOpen = aiPanel.classList.contains('active');
+            if (!isOpen) {
+                // first, mark the page as in 'ai-open' so the container shrinks (instant)
+                document.body.classList.add('ai-open');
+                // force a layout reflow so the browser applies the resized container before we reveal the panel
+                void document.body.offsetWidth;
+                // now reveal the panel immediately (no animation)
+                if (aiPanel.hasAttribute('hidden')) aiPanel.removeAttribute('hidden');
+                aiPanel.classList.add('active');
+                aiPanel.setAttribute('aria-hidden', 'false');
+                // initialize greeting on first open
+                if (!aiInitialized) {
+                    aiInitialized = true;
+                    if (aiMessages) aiMessages.innerHTML = ''; // ensure clean start
+                    addAIMessage('Howdy! I\'m Arg — the AI assistant of the Boogle Search page.', false);
+                }
+                // focus immediately since there's no animation
+                aiInput && aiInput.focus();
+            } else {
+                // hide instantly
+                aiPanel.classList.remove('active');
+                document.body.classList.remove('ai-open');
+                aiPanel.setAttribute('aria-hidden', 'true');
+                aiPanel.hidden = true;
+            }
         });
 
         aiCloseBtn.addEventListener('click', () => {
-            aiPanel.hidden = true;
+            aiPanel.classList.remove('active');
+            document.body.classList.remove('ai-open');
             aiPanel.setAttribute('aria-hidden', 'true');
+            // hide immediately since we no longer animate the panel
+            aiPanel.hidden = true;
         });
 
         aiSendBtn.addEventListener('click', sendAIMessage);
@@ -581,13 +651,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('click', (e) => {
             const headerControls = document.querySelector('.header-controls');
             if (headerControls && aiPanel && (headerControls.contains(e.target) || aiPanel.contains(e.target))) return;
-            if (aiPanel) {
-                aiPanel.hidden = true;
+            if (aiPanel && aiPanel.classList.contains('active')) {
+                aiPanel.classList.remove('active');
+                document.body.classList.remove('ai-open');
                 aiPanel.setAttribute('aria-hidden', 'true');
+                setTimeout(() => { if (!aiPanel.classList.contains('active')) aiPanel.hidden = true; }, 340);
             }
         });
 
-        // Add initial greeting when page loads
-        addAIMessage('Howdy! I\'m Arg, the AI Assistant of the Boogle Search page. What would ya like to know?', false);
+
     }
 });

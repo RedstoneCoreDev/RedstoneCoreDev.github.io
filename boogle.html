@@ -22,7 +22,6 @@
             <p><strong>This is not Google.</strong> The name "Boogle" comes from a Discord username. This site is <strong>not affiliated with Google</strong> in any way.</p>
             <p>Boogle Search is a <strong>fancy interface for fun</strong>—it simply redirects your searches to Google or DuckDuckGo. It serves no purpose other than looking cool.</p>
             <p>The AI assistant ("Arg") is <strong>completely fake</strong> and is also just for fun. It uses pre-programmed responses based on keywords.</p>
-            <br><p style="font-size: 0.8em;">Currently in development so expect unfinished stuff.</p>
         </div>
         <button id="disclaimer-accept" class="disclaimer-accept">I Understand</button>
     </div>
@@ -84,24 +83,24 @@
             </div>
         </main>
 
-        <!-- AI Chatbot Panel -->
-        <div id="ai-panel" class="ai-panel" hidden aria-hidden="true">
-            <div class="ai-header">
-                <h3>Arg the AI Assistant</h3>
-                <button id="ai-close" class="ai-close" title="Close AI Assistant">✕</button>
-            </div>
-            <div id="ai-messages" class="ai-messages" role="log"></div>
-            <div class="ai-input-area">
-                <input type="text" id="ai-input" placeholder="Ask me anything..." autocomplete="off">
-                <button id="ai-send" title="Send message">Send</button>
-            </div>
-        </div>
-
-        <footer>
-            <p>&copy; 2025 RedstoneCoreDev | Boogle. Just for fun!</p>
-            <p>Even if the name sounds similar to Google it is not intendet to imitate Google.<br>More in the README.md in the <a href="https://github.com/RedstoneCoreDev/RedstoneCoreDev.github.io">Github Repository</a></p>
-        </footer>
+    <footer>
+        <p>&copy; 2025 RedstoneCoreDev | Boogle. Just for fun!</p>
+        <p>Even if the name sounds similar to Google it is not intendet to imitate Google.<br>More in the README.md in the <a href="https://github.com/RedstoneCoreDev/RedstoneCoreDev.github.io">Github Repository</a></p>
+    </footer>
     </div>
+
+    <!-- AI Chatbot Panel -->
+    <div id="ai-panel" class="ai-panel" hidden aria-hidden="true">
+        <div class="ai-header">
+            <h3>Boogle AI Assistant</h3>
+            <button id="ai-close" class="ai-close" title="Close AI Assistant">✕</button>
+        </div>
+        <div id="ai-messages" class="ai-messages" role="log"></div>
+        <div class="ai-input-area">
+            <input type="text" id="ai-input" placeholder="Ask me anything..." autocomplete="off">
+            <button id="ai-send" title="Send message">Send</button>
+        </div>
+    </div>
+
     <script src="boogle.js"></script>
 </body>
-</html>
