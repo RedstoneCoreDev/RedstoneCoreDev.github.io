@@ -36,25 +36,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Winter decorations: show snow/lights from November through February
     try {
-        const now = new Date();
-        const month = now.getMonth(); // 0 = Jan, 11 = Dec
-        const isWinter = month === 10 || month === 11 || month === 0 || month === 1; // Nov, Dec, Jan, Feb
-        if (isWinter) {
-            document.body.classList.add('christmas');
-            // add a little festive emoji to the page title
-            try { document.title = `${document.title} | It's snowing!`; } catch(e){}
 
-            // tweak visible header title text in a friendly way
-            const headerTitle = document.getElementById('boogle-title');
+        const headerTitle = document.getElementById('boogle-title');
             if (headerTitle) {
                 const titleText = headerTitle.querySelector('.title-text');
                 if (titleText) titleText.textContent = 'Search page';
             }
 
-            // create decorative lights & falling snow
+        const now = new Date();
+        const month = now.getMonth(); // 0 = Jan, 11 = Dec
+        const isWinter = month === 10 || month === 11 || month === 0 || month === 1; // Nov, Dec, Jan, Feb
+
+        // check if its winter | if true it generates winter functions and decorations  
+        if (isWinter) {
+
+            // add emoji and add winter text to title
+            document.body.classList.add('christmas');
+            try { document.title = `${document.title} | It's snowing!`; } catch(e){}
+
+            // create decorative lights and falling snow
             (function createDecorations(){
+
                 // lights
                 const lightsEl = document.getElementById('lights');
+
                 if (lightsEl) {
                     // create a string of bulbs across the top
                     const colors = ['#ff6b6b','#ffd166','#9be7ff','#a6ffb0','#ffb7f5'];
@@ -65,10 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         bulb.className = 'bulb glow';
                         const color = colors[i % colors.length];
                         bulb.style.background = color;
-                        // stagger transform for natural feel
                         bulb.style.transform = `rotate(${(Math.random()*8)-4}deg)`;
                         bulb.style.opacity = `${0.85 + Math.random()*0.15}`;
-                        // create small spacing wrapper so bulbs distribute nicely
                         const wrap = document.createElement('div');
                         wrap.style.width = '24px'; wrap.style.display = 'flex'; wrap.style.justifyContent = 'center';
                         wrap.appendChild(bulb);
@@ -80,31 +83,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 const snowEl = document.getElementById('snow');
                 if (!snowEl) return;
                 snowEl.innerHTML = '';
-                const flakes = 40;
+                const flakes = 100;
                 for (let i = 0; i < flakes; i++) {
                     const flake = document.createElement('div');
                     flake.className = 'snowflake';
                     flake.textContent = '❆';
-                    const size = 10 + Math.random() * 22; // font size in px
+                    const size = 10 + Math.random() * 22;
                     flake.style.fontSize = `${size}px`;
-                    flake.style.left = `${Math.random() * 100}%`; // Changed from vw to %
-                    flake.style.top = `-10vh`; // Start above viewport
-                    // staggered timings
-                    const fallDur = 8 + Math.random() * 200; // seconds
-                    const swayDur = 3 + Math.random() * 40; // seconds
-                    const spinDur = 6 + Math.random() * 120; // seconds
-                    const fallDelay = Math.random() * 30; // keep initial delay shorter so flakes appear quickly
-                    // apply full animation shorthand so durations/delays are guaranteed to align
+                    flake.style.left = `${Math.random() * 100}%`;
+                    flake.style.top = `-10vh`;
+                    const fallDur = 8 + Math.random() * 12;
+                    const swayDur = 3 + Math.random() * 4;
+                    const fallDelay = Math.random() * 5;
                     flake.style.animation = `fall ${fallDur}s linear ${fallDelay}s infinite, sway ${swayDur}s ease-in-out 0s infinite`;
                     flake.style.opacity = `${0.6 + Math.random() * 0.4}`;
                     snowEl.appendChild(flake);
                 }
             })();
         }
-    } catch (e) {
-        // non-critical — don't interfere with the rest of the script if something fails
+    } catch (e) { // catch any errors to avoid breaking the page
         console.warn('Boogle: seasonal decorations failed to initialize', e);
     }
+
+    // Main Search Function
+    // get DOM elements
     const input = document.getElementById('search-input');
     const button = document.getElementById('search-button');
     const engineSelect = document.getElementById('engine-select');
@@ -117,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const openModeSelect = document.getElementById('open-mode');
     const enableHistorySelect = document.getElementById('enable-history');
 
-    // Defensive check — log a helpful error and stop if critical elements are missing
+    // stop if critical elements are missing and log them
     if (!input || !button || !engineSelect || !resultsEl) {
         console.error('Boogle: missing DOM elements.', { input, button, engineSelect, resultsEl, feeling });
         return;
@@ -240,6 +242,149 @@ document.addEventListener('DOMContentLoaded', () => {
             historyDropdown.appendChild(el);
         }
         historyDropdown.hidden = false;
+    }
+
+    // --- Smart Search Suggestions ---
+    function detectSpecialQuery(query) {
+        const q = query.trim().toLowerCase();
+        const suggestions = [];
+
+        // Math detection (supports basic operations)
+        const mathPattern = /^[\d\s\+\-\*\/\(\)\.]+$/;
+        if (mathPattern.test(q) && /[\+\-\*\/]/.test(q)) {
+            try {
+                const result = eval(q); // Safe here since we validated it's only numbers/operators
+                if (!isNaN(result)) {
+                    suggestions.push({
+                        type: 'calculator',
+                        query: q,
+                        result: result,
+                        display: `${q} = ${result}`
+                    });
+                }
+            } catch (e) { /* invalid math */ }
+        }
+
+        // Unit conversions
+        // Temperature
+        const tempCtoF = q.match(/(\d+\.?\d*)\s*c\s+to\s+f/);
+        const tempFtoC = q.match(/(\d+\.?\d*)\s*f\s+to\s+c/);
+        if (tempCtoF) {
+            const celsius = parseFloat(tempCtoF[1]);
+            const fahrenheit = (celsius * 9/5) + 32;
+            suggestions.push({
+                type: 'conversion',
+                display: `${celsius}°C = ${fahrenheit.toFixed(1)}°F`
+            });
+        }
+        if (tempFtoC) {
+            const fahrenheit = parseFloat(tempFtoC[1]);
+            const celsius = (fahrenheit - 32) * 5/9;
+            suggestions.push({
+                type: 'conversion',
+                display: `${fahrenheit}°F = ${celsius.toFixed(1)}°C`
+            });
+        }
+
+        // Distance conversions
+        const kmToMiles = q.match(/(\d+\.?\d*)\s*km\s+to\s+miles?/);
+        const milesToKm = q.match(/(\d+\.?\d*)\s*miles?\s+to\s+km/);
+        if (kmToMiles) {
+            const km = parseFloat(kmToMiles[1]);
+            const miles = km * 0.621371;
+            suggestions.push({
+                type: 'conversion',
+                display: `${km} km = ${miles.toFixed(2)} miles`
+            });
+        }
+        if (milesToKm) {
+            const miles = parseFloat(milesToKm[1]);
+            const km = miles * 1.60934;
+            suggestions.push({
+                type: 'conversion',
+                display: `${miles} miles = ${km.toFixed(2)} km`
+            });
+        }
+
+        // Weather query detection
+        if (q.includes('weather')) {
+            suggestions.push({
+                type: 'weather',
+                display: 'Weather (click to search)',
+                action: 'search'
+            });
+        }
+
+        return suggestions;
+    }
+
+    function renderSmartSuggestions(query) {
+        if (!historyDropdown) return;
+        
+        const specialSuggestions = detectSpecialQuery(query);
+        const historySuggestions = prepareSuggestions();
+        
+        historyDropdown.innerHTML = '';
+        
+        // Show special suggestions first
+        if (specialSuggestions.length > 0) {
+            for (const s of specialSuggestions) {
+                const el = document.createElement('div');
+                el.className = 'suggestion-item special';
+                
+                if (s.type === 'calculator') {
+                    el.innerHTML = `<strong>🔢 Calculator:</strong> ${s.display}`;
+                    el.addEventListener('click', () => {
+                        input.value = s.display;
+                        historyDropdown.hidden = true;
+                    });
+                } else if (s.type === 'conversion') {
+                    el.innerHTML = `<strong>🔄 Conversion:</strong> ${s.display}`;
+                    el.addEventListener('click', () => {
+                        input.value = s.display;
+                        historyDropdown.hidden = true;
+                    });
+                } else if (s.type === 'weather') {
+                    el.innerHTML = `<strong>🌤️ Weather:</strong> ${s.display}`;
+                    el.addEventListener('click', () => {
+                        doSearch(query);
+                        historyDropdown.hidden = true;
+                    });
+                }
+                
+                historyDropdown.appendChild(el);
+            }
+            
+            // Add separator if we have both special and history
+            if (historySuggestions.length > 0) {
+                const separator = document.createElement('div');
+                separator.className = 'suggestion-separator';
+                separator.textContent = 'Recent Searches';
+                historyDropdown.appendChild(separator);
+            }
+        }
+        
+        // Then show history suggestions
+        for (const s of historySuggestions) {
+            const el = document.createElement('div');
+            el.className = 'history-item';
+            const left = document.createElement('div');
+            left.textContent = s.term;
+            const right = document.createElement('div');
+            if (s.type === 'recent') right.innerHTML = '<span class="history-count">recent</span>';
+            else if (s.type === 'top-4d') right.innerHTML = `<span class="history-count">top ${s.count} in 4d</span>`;
+            else if (s.type === 'top-8d') right.innerHTML = `<span class="history-count">top ${s.count} in 8d</span>`;
+            el.appendChild(left);
+            el.appendChild(right);
+            el.addEventListener('click', () => {
+                input.value = s.term;
+                historyDropdown.hidden = true;
+                doSearch(s.term);
+            });
+            historyDropdown.appendChild(el);
+        }
+        
+        historyDropdown.hidden = (specialSuggestions.length === 0 && historySuggestions.length === 0);
     }
 
     // wire settings UI
@@ -390,7 +535,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // events
     button.addEventListener('click', () => doSearch(input.value));
     input.addEventListener('keydown', (e) => { if (e.key === 'Enter') doSearch(input.value); });
-    input.addEventListener('focus', () => { renderHistoryDropdown(); });
+
+    input.addEventListener('input', () => {
+        if (input.value.trim()) {
+            renderSmartSuggestions(input.value);
+        } else {
+            renderHistoryDropdown();
+        }
+    });
+
+    input.addEventListener('focus', () => {
+        if (input.value.trim()) {
+            renderSmartSuggestions(input.value);
+        } else {
+            renderHistoryDropdown();
+        }
+    });
+
     // hide when user presses Escape
     input.addEventListener('keydown', (e) => { if (e.key === 'Escape') historyDropdown && (historyDropdown.hidden = true); });
     // hide dropdown on blur (short delay to allow clicks inside the dropdown)
@@ -404,7 +565,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     if (feeling) {
         feeling.addEventListener('click', () => {
-            const funTerms = ['aesthetic cats', 'coding jokes', 'pixel animations', 'digital doodles', 'cozy desk setups', 'retro sci-fi art', 'space nebula photos', 'galaxy aesthetics', 'weird animal pics', 'glitch wallpapers', 'minimalistic shapes', 'lofi backgrounds', 'cute penguins', 'retro robots', 'geometry patterns', 'floating islands art', 'cosmic vibes', 'cute frogs', 'techcore aesthetics', 'vintage posters', 'rainy window wallpapers', 'sunset skylines', 'abstract clouds', 'space station renders', 'cute foxes', 'cyberpunk streets', 'retro UI concepts', 'nature closeups', 'weird facts', 'illusion patterns', 'led room aesthetics', 'pastel gradients', 'forest wallpapers', 'mountain panoramas', 'vaporwave statues', 'digital landscapes', 'fantasy castles', 'retro neon signs', 'minimal rooms', 'cute owls', 'star trails photography', 'jellyfish photos', 'deep sea creatures', 'robot concept art', 'isometric rooms', 'cute raccoons', 'glowing mushrooms art', 'dreamy skies', 'indie game art'];
+            const funTerms = ['aesthetic cats', 'coding jokes', 'pixel animations', 'digital doodles', 'cozy desk setups', 'retro sci-fi art',
+                              'space nebula photos', 'galaxy aesthetics', 'weird animal pics', 'glitch wallpapers', 'minimalistic shapes',
+                              'lofi backgrounds', 'cute penguins', 'retro robots', 'geometry patterns', 'floating islands art', 'cosmic vibes',
+                              'cute frogs', 'techcore aesthetics', 'vintage posters', 'rainy window wallpapers', 'sunset skylines', 'abstract clouds',
+                              'space station renders', 'cute foxes', 'cyberpunk streets', 'retro UI concepts', 'nature closeups', 'weird facts',
+                              'illusion patterns', 'led room aesthetics', 'pastel gradients', 'forest wallpapers', 'mountain panoramas',
+                              'vaporwave statues', 'digital landscapes', 'fantasy castles', 'retro neon signs', 'minimal rooms', 'cute owls',
+                              'star trails photography', 'jellyfish photos', 'deep sea creatures', 'robot concept art', 'isometric rooms',
+                              'cute raccoons', 'glowing mushrooms art', 'dreamy skies', 'indie game art', 'crossbows vs bows', 'moonlit beaches',
+                              'bioluminescent waves', 'aurora borealis photos', 'futuristic vehicles', 'steampunk gadgets'];
             const pick = funTerms[Math.floor(Math.random()*funTerms.length)];
             input.value = pick;
             doSearch(pick);
@@ -475,6 +645,15 @@ document.addEventListener('DOMContentLoaded', () => {
             'Open Settings (⚙️) to customize how Boogle opens results and manage your search history.',
             'Settings let ya choose to open results in a new tab or same tab, and toggle history on/off.',
             'Adjust preferences like opening behavior and history tracking in the Settings panel!'
+        ],
+        'weather': [
+            'To check the weather, just type "weather" followed by a location in the search bar!',
+        ],
+        'calculator|calculate': [
+            'Just type a math expression like "2 + 2" or "5 * (3 + 1)" in the search bar.',
+        ],
+        'conversion|convert': [
+            'Try typing conversions like "100 F to C" in the search bar! Don\'t forget units and without the ° character because it doesn\'t work yet!',
         ],
         'feeling|lucky|boogley': [
             'The "I\'m Feeling Boogley" button shows ya random fun searches! Try it for a surprise.',
@@ -550,9 +729,10 @@ document.addEventListener('DOMContentLoaded', () => {
             'Moonlight is so calming.'
         ],
         'good night|sleep': [
-            'Good night! Sweet dreams!',
-            'Time to rest! See ya later!',
-            'Sleep well and recharge for tomorrow!'
+            'Good night!',
+            'Sweet dreams!',
+            'See ya later!',
+            'Sleep well!'
         ]
     };
 
