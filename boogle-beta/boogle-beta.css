@@ -1,0 +1,46 @@
+
+body {
+    font-family: 'Roboto', 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    background: #000000;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Boogle Title */
+
+#boogle-title {
+    font-size: 1.7em;
+}
+
+#boogle-title .title-logo {
+    font-size: clamp(1.7rem, 5vw, 2.8rem);
+    background: linear-gradient(90deg, pink,#ffd1e6 40%, #82eeff 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 800;
+}
+
+#boogle-title .title-text {
+    font-size: clamp(1.5rem, 4.5vw, 2.6rem);
+    background: linear-gradient(270deg, pink,#ffd1e6 40%, #82eeff 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+#boogle-title .title-beta {
+    font-size: clamp(1.2rem, 4.2vw, 2.5rem);
+    background: linear-gradient(270deg, pink, #ff72ff 40%, #82eeff 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* -- END -- */
