@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Boogle theme</title>
+    <link rel="icon" type="image/png" href="boogle.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        
+        body {
+            font-family: 'Roboto', 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #EDA3B2, #Ace1af);
+            color: #111;
+        }
+        
+        .container {
+            width: 90vw;
+            max-width: 600px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 48px 36px;
+            box-shadow: 0 8px 36px rgba(0,0,0,0.18);
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+        
+        .error-code {
+            font-size: clamp(4rem, 15vw, 8rem);
+            font-weight: 800;
+            background: linear-gradient(90deg, #fff4d6, #ffd1e6 40%, #d9f5ff 80%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 0;
+            line-height: 1;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: #e68c9e;
+            margin: 20px 0 10px;
+        }
+        
+        p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: rgba(255,255,255,0.9);
+            margin: 20px 0 40px;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(90deg, #EDA3B2, #4EAFEA);
+            color: white;
+            text-decoration: none;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+        }
+        
+        .suggestions {
+            margin-top: 30px;
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .suggestions a {
+            color: #4EAFEA;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .suggestions a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="error-code">404</div>
+        <h1>Oops! Page Not Found</h1>
+        <p>The page you're looking for seems to have wandered off into the digital void. Maybe it never existed, or maybe it's just feeling shy today.</p>
+        
+        <a href="/boogle.html" class="button">🏠 Back to Boogle</a>
+        
+        <div class="suggestions">
+            <p>You might want to try:</p>
+            <a href="index.html">RedstoneCoreDev.github.io</a>
+        </div>
+    </div>
+</body>
+</html>
