@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boogle Search - search fancy</title>
-    <link rel="icon" type="image/png" href="boogle.png">
+    <link rel="icon" type="image/png" href="img/boogle.png">
     <link rel="stylesheet" href="boogle.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,12 +21,13 @@
         <div class="disclaimer-content">
             <p><strong>This is not Google.</strong> The name "Boogle" comes from a Discord username. This site is <strong>not affiliated with Google</strong> in any way.</p>
             <p>Boogle Search is a <strong>fancy interface for fun</strong>—it simply redirects your searches to Google or DuckDuckGo. It serves no purpose other than looking cool.</p>
-            <p>The AI assistant ("Arg") is <strong>completely fake</strong> and is just for fun. It uses pre-programmed responses based on keywords.</p>
+            <p>The AI assistant ("Arg") is <strong>fake</strong> and is just for fun. It uses pre-programmed responses based on keywords.</p>
         </div>
         <button id="disclaimer-accept" class="disclaimer-accept">I Understand</button>
     </div>
     
     <div class="container">
+        
         <header>
             <div class="title-wrap">
                 <h1 id="boogle-title"><span class="logo">Boogle</span> <span class="title-text">Search</span></h1>
@@ -36,6 +37,7 @@
                 <button id="settings-btn" class="settings-btn" title="Settings" aria-haspopup="true" aria-controls="settings-panel">⚙️</button>
             </div>
         </header>
+
         <main>
             <div class="search-container">
                 <div class="search-top">
@@ -47,6 +49,7 @@
                         <input type="text" id="search-input" placeholder="Search with Boogle..." autocomplete="off" aria-autocomplete="list">
                         <div id="history-dropdown" class="history-dropdown" role="listbox" aria-label="Search history" hidden></div>
                         <button id="search-button">Search</button>
+                        <button id="weather-button" onclick="getWeather('London')">Weather</button>
                     </div>
                 </div>
                 <div class="buttons">
@@ -84,7 +87,7 @@
         </main>
 
     <footer>
-        <p>&copy; 2026 RedstoneCoreDev | Boogle. Just for fun!</p>
+        <p>&copy; 2025 RedstoneCoreDev | Boogle. Just for fun!</p>
         <p>Even if the name sounds similar to Google it is not intendet to imitate Google.<br>More in the README.md in the <a href="https://github.com/RedstoneCoreDev/RedstoneCoreDev.github.io">Github Repository</a></p>
     </footer>
     </div>

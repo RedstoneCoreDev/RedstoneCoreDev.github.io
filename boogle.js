@@ -842,3 +842,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 });
+
+    function getWeather(city) {
+        fetch(`https://wttr.in/${city}?format=j1`)
+        .then(res => res.json())
+        .then(data => console.log('whatever:', data.current_condition));
+    }
