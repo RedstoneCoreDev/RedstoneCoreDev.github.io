@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>The Boogle Search page BETA - search fancy</title>
+
+    <link rel="icon" type="image/png" href="img/boogle.png">
+
+    <link rel="stylesheet" href="boogle-beta.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- Lights and Snow -->
+    <div id="lights" class="lights" aria-hidden="true"></div>
+    <div id="snow" class="snow" aria-hidden="true"></div>
+    
+    <!-- Disclaimer Overlay -->
+    <div id="disclaimer-overlay" class="disclaimer-overlay" aria-hidden="true"></div>
+    <!-- Disclaimer Banner -->
+    <div id="disclaimer-banner" class="disclaimer-banner" role="alertdialog" aria-labelledby="disclaimer-title">
+        
+        <h2 id="disclaimer-title">Important Notice</h2>
+        
+        <div class="disclaimer-content">
+            
+            <p><strong>This is not Google.</strong> The name "Boogle" comes from a Discord username. This site is <strong>not affiliated with Google</strong> in any way.</p>
+            <p>Boogle Search is a <strong>fancy interface for fun</strong>—it simply redirects your searches to Google or DuckDuckGo. It serves no purpose other than being fancy.</p>
+            <p>The AI assistant ("Arg") is <strong>fake</strong> and is just for fun. It uses pre-programmed responses based on keywords.</p>
+            <br>
+
+            <div class="beta-notice">
+
+                <h3>Beta Version:</h3> <br> You are using the beta version of the Boogle Search page. Some features may not work as expected. If you want to use the stable version, please visit <a href="../boogle.html">the Boogle Search page</a>.
+        
+            </div>
+
+        </div>
+        
+        <button id="disclaimer-accept" class="disclaimer-accept">I Understand</button>
+    
+    </div>
+    
+    <!-- Container -->
+    <!-- almost everything is inside here, except Disclaimer, Lights and Snow -->
+    <div class="container">
+        
+        <header>
+
+            <h1 class="boogle-title">  <span class="logo">Boogle</span>    <span class="title-text">Search page</span>   </h1>
+            
+            <div class="header-controls">
+
+                <button id="ai-toggle" class="header-btn" title="AI Assistant" aria-label="AI Assistant">Arg.ai</button>
+                <button id="settings-btn" class="settings-btn" title="Settings" aria-haspopup="true" aria-controls="settings-panel">⚙️</button>
+            
+            </div>
+
+        </header>
+        <!-- ----- ----- ----- ----- ----- -->
+        <main>
+            
+            <div class="search-container">
+                
+                <div class="search-top">
+                    
+                    <select id="engine-select" title="Choose search engine">
+                        
+                        <option class="option-button" value="ddg">DuckDuckGo</option>
+                        <option class="option-button" value="google">Google</option>
+                    
+                    </select>
+                    
+                    <div class="search-bar">
+                        
+                        <input type="text" id="search-input" placeholder="Search with Boogle..." autocomplete="off" aria-autocomplete="list">
+                        <div id="history-dropdown" class="history-dropdown" role="listbox" aria-label="Search history" hidden></div>
+                        <button id="search-button">Search</button>
+                        <button id="weather-button" onclick="getWeather('Vienna')">Weather</button>
+                    
+                    </div>
+                
+                </div>
+                
+                <button class="boogley-button" id="feeling">I'm Feeling Boogley</button>
+                
+                <!-- Settings panel - shown when user clicks the settings button -->
+                <div id="settings-panel" class="settings-panel" aria-hidden="true" hidden>
+                    
+                    <h2>Settings</h2>
+                    
+                    <div class="setting-row">
+                        
+                        <label for="open-mode">When searching:</label>
+                        
+                        <select id="open-mode">
+                            
+                            <option class="option-button" value="same">Open in same tab</option>
+                            <option class="option-button" value="new">Open in new tab</option>
+                        
+                        </select>
+                    
+                    </div>
+                    <br>                    
+                    <div class="setting-row">
+                        
+                        <label for="enable-history">Search history:</label>
+                        
+                        <select id="enable-history">
+                            
+                            <option class="option-button" value="on">Enabled</option>
+                            <option class="option-button" value="off">Disabled</option>
+                        
+                        </select>
+                    
+                    </div>
+                    <br><br><br>
+                    <div class="setting-row">
+
+                        <button id="settings-close" class="fancy-button">Back to Search</button>
+                        <button id="clear-history" class="fancy-button" title="Clear search history">Clear History</button>
+                        <button id="reset-all" class="fancy-button reset-btn" title="Reset all data including browser storage">Reset All Data</button>
+                    
+                    </div>
+                
+                </div>
+
+                <!-- Results -->
+                <!-- only displayed when searched and succesfully fetched -->
+                <div id="results" class="results"></div>
+            
+            </div>
+        
+        </main>
+        <!-- ----- ----- ----- ----- ----- -->
+
+        <!-- Footer -->
+        <footer>
+        
+            <p>&copy; 2026 RedstoneCoreDev | Boogle. Just for fun!</p>
+            <p>Even if the name sounds similar to Google it is not intendet to imitate Google.<br>More in the README.md in the <a href="https://github.com/RedstoneCoreDev/RedstoneCoreDev.github.io">Github Repository</a></p>
+            
+        </footer>
+        <!-- ----- ----- ----- ----- ----- -->
+    
+    </div>
+    <!-- ----- ----- ----- ----- ----- -->
+
+    <!-- AI Chatbot Panel -->
+    <div id="ai-panel" class="ai-panel" hidden aria-hidden="true">
+
+        <div class="ai-header">
+
+            <h3>Arg the AI Assistant</h3>
+            <button id="ai-close" class="ai-close" title="Close AI Assistant">✕</button>
+
+        </div>
+
+        <div id="ai-messages" class="ai-messages" role="log"></div>
+
+        <div class="ai-input-area">
+
+            <input type="text" id="ai-input" placeholder="Ask me anything..." autocomplete="off">
+            <button id="ai-send" class="ai-send-button" title="Send message">Send</button>
+
+        </div>
+
+    </div>
+    <!-- ----- ----- ----- ----- ----- -->
+
+    <script src="boogle-beta.js"></script>
+    
+</body>
