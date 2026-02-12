@@ -55,83 +55,127 @@
         
         <header>
 
-            <div class="title-wrap">
-                <h1 id="boogle-title">  <span class="logo">Boogle</span>    <span class="title-text">Search page</span>   </h1>
-            </div>
-
+            <h1 class="boogle-title">  <span class="logo">Boogle</span>    <span class="title-text">Search page</span>   </h1>
+            
             <div class="header-controls">
+
                 <button id="ai-toggle" class="header-btn" title="AI Assistant" aria-label="AI Assistant">Arg.ai</button>
                 <button id="settings-btn" class="settings-btn" title="Settings" aria-haspopup="true" aria-controls="settings-panel">⚙️</button>
+            
             </div>
 
         </header>
-
+        <!-- ----- ----- ----- ----- ----- -->
         <main>
+            
             <div class="search-container">
+                
                 <div class="search-top">
+                    
                     <select id="engine-select" title="Choose search engine">
+                        
                         <option class="option-button" value="ddg">DuckDuckGo</option>
                         <option class="option-button" value="google">Google</option>
+                    
                     </select>
+                    
                     <div class="search-bar">
+                        
                         <input type="text" id="search-input" placeholder="Search with Boogle..." autocomplete="off" aria-autocomplete="list">
                         <div id="history-dropdown" class="history-dropdown" role="listbox" aria-label="Search history" hidden></div>
                         <button id="search-button">Search</button>
-                        <button id="weather-button" onclick="getWeather('London')">Weather</button>
+                        <button id="weather-button" onclick="getWeather('Vienna')">Weather</button>
+                    
                     </div>
+                
                 </div>
-                <div class="buttons">
-                    <div class="fancy-container">
-                        <button class="fancy-button" id="feeling">I'm Feeling Boogley</button>
-                    </div>
-                </div>
-
+                
+                <button class="boogley-button" id="feeling">I'm Feeling Boogley</button>
+                
                 <!-- Settings panel - shown when user clicks the settings button -->
                 <div id="settings-panel" class="settings-panel" aria-hidden="true" hidden>
+                    
                     <h2>Settings</h2>
+                    
                     <div class="setting-row">
+                        
                         <label for="open-mode">When searching:</label>
+                        
                         <select id="open-mode">
+                            
                             <option class="option-button" value="same">Open in same tab</option>
                             <option class="option-button" value="new">Open in new tab</option>
+                        
                         </select>
+                    
                     </div>
+                    <br>                    
                     <div class="setting-row">
+                        
                         <label for="enable-history">Search history:</label>
+                        
                         <select id="enable-history">
+                            
                             <option class="option-button" value="on">Enabled</option>
                             <option class="option-button" value="off">Disabled</option>
+                        
                         </select>
+                    
                     </div>
+                    <br><br><br>
                     <div class="setting-row">
+
+                        <button id="settings-close" class="fancy-button">Back to Search</button>
                         <button id="clear-history" class="fancy-button" title="Clear search history">Clear History</button>
                         <button id="reset-all" class="fancy-button reset-btn" title="Reset all data including browser storage">Reset All Data</button>
-                        <button id="settings-close" class="fancy-button">Back to Search</button>
+                    
                     </div>
+                
                 </div>
 
+                <!-- Results -->
+                <!-- only displayed when searched and succesfully fetched -->
                 <div id="results" class="results"></div>
+            
             </div>
+        
         </main>
+        <!-- ----- ----- ----- ----- ----- -->
 
-    <footer>
-        <p>&copy; 2025 RedstoneCoreDev | Boogle. Just for fun!</p>
-        <p>Even if the name sounds similar to Google it is not intendet to imitate Google.<br>More in the README.md in the <a href="https://github.com/RedstoneCoreDev/RedstoneCoreDev.github.io">Github Repository</a></p>
-    </footer>
+        <!-- Footer -->
+        <footer>
+        
+            <p>&copy; 2026 RedstoneCoreDev | Boogle. Just for fun!</p>
+            <p>Even if the name sounds similar to Google it is not intendet to imitate Google.<br>More in the README.md in the <a href="https://github.com/RedstoneCoreDev/RedstoneCoreDev.github.io">Github Repository</a></p>
+            
+        </footer>
+        <!-- ----- ----- ----- ----- ----- -->
+    
     </div>
+    <!-- ----- ----- ----- ----- ----- -->
 
     <!-- AI Chatbot Panel -->
     <div id="ai-panel" class="ai-panel" hidden aria-hidden="true">
+
         <div class="ai-header">
+
             <h3>Arg the AI Assistant</h3>
             <button id="ai-close" class="ai-close" title="Close AI Assistant">✕</button>
+
         </div>
+
         <div id="ai-messages" class="ai-messages" role="log"></div>
+
         <div class="ai-input-area">
+
             <input type="text" id="ai-input" placeholder="Ask me anything..." autocomplete="off">
-            <button id="ai-send" title="Send message">Send</button>
+            <button id="ai-send" class="ai-send-button" title="Send message">Send</button>
+
         </div>
+
     </div>
+    <!-- ----- ----- ----- ----- ----- -->
 
     <script src="boogle-beta.js"></script>
+    
 </body>

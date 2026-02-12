@@ -35,12 +35,15 @@ body {
     z-index: 2;
 }
 
-#boogle-title { display: inline-flex; align-items: baseline; gap: 0.4rem; flex-wrap: wrap; }
+.boogle-title {
+    align-items: baseline;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    display: inline-block;
+    margin-left: -2px;
+    flex: 1 1 auto;
+}
 
-body.christmas #boogle-title { display: inline-block; margin-left: -2px; transform: translateY(-3px) rotate(-8deg);}
-
-/*@keyframes hat-bounce { 0% { transform: translateY(-2px) rotate(-6deg); } 50% { transform: translateY(3px) rotate(6deg); } 100% { transform: translateY(-2px) rotate(-6deg); } }
-*/
 /* tiny garland effect above the title in Christmas mode */
 .stuff{
     content: '';
@@ -95,7 +98,6 @@ body.christmas #boogle-title { display: inline-block; margin-left: -2px; transfo
     border-radius: 2px;
 }
 .lights .bulb.glow { animation: bulb-glow 2.4s ease-in-out infinite; }
-@keyframes bulb-glow { 0% { transform: translateY(0) scale(1); box-shadow: 0 0 6px rgba(255,255,255,0.02); } 50% { transform: translateY(-3px) scale(1.03); box-shadow: 0 0 14px rgba(255,255,255,0.22); } 100% { transform: translateY(0) scale(1); box-shadow: 0 0 6px rgba(255,255,255,0.02); } }
 
 /* show lights and snow only in Christmas mode */
 .lights { display: none; }
@@ -131,18 +133,6 @@ body.christmas .snow { display: block; pointer-events: none; z-index: 6; /* abov
 .history-dropdown { min-height: 48px; padding: 8px 12px; }
 /* snowflake shapes use text glyphs (see first .snowflake block above) */
 
-@keyframes fall { 
-    0% { top: -10vh; opacity: 0; }
-    5% { opacity: 0.8; }
-    95% { opacity: 0.6; }
-    100% { top: 120vh; opacity: 0; }
-}
-
-@keyframes sway { 
-    0%, 100% { transform: translateX(0px) rotate(0deg); } 
-    50% { transform: translateX(30px) rotate(180deg); } 
-}
-
 /* header layout — title and settings on same line with flexible gap */
 header {
     display: flex;
@@ -153,7 +143,6 @@ header {
     flex-wrap: wrap;
 }
 
-.title-wrap { flex: 1 1 auto; }
 .header-controls { display: flex; align-items: flex-start; gap: 8px; }
 
 .settings-btn {
@@ -219,7 +208,7 @@ header {
 
 /* When the search container is in 'settings' mode hide the primary search UI */
 .search-container.settings-active .search-top,
-.search-container.settings-active .buttons,
+.search-container.settings-active .boogley-button,
 .search-container.settings-active #results {
     display: none;
 }
@@ -309,41 +298,14 @@ button:hover { background: var(--secondary); transform: translateY(-1px); }
 /*  From Uiverse.io by Spacious74   */
 /*    Changed to fit the site       */ 
 .fancy-button {
-    margin-top: 0;
-    padding: 10px 18px;
+    margin: 0 60px;
+    padding: 12px 24px;
     border-radius: 999px;
     font-weight: 550;
     background: linear-gradient(90deg, var(--primary), var(--link));
     color: #111;
     font-size: 15px;
-}
-
-.fancy-container {
-  position: relative;
-  padding: 5px;
-  background: linear-gradient(90deg, var(--primary), var(--link));
-  border-radius: 0.9em;
-  transition: all 0.4s ease;
-}
-
-.fancy-container::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  border-radius: 0.9em;
-  z-index: -10;
-  filter: blur(0);
-  transition: filter 0.4s ease;
-}
-
-.fancy-container:hover::before {
-  background: linear-gradient(90deg, var(--primary), var(--link));
-  filter: blur(1.2em);
-}
-
-.fancy-container:active::before {
-  filter: blur(0.2em);
+    white-space: nowrap;
 }
 
 footer {
@@ -408,6 +370,58 @@ footer {
 .reset-btn:active {
     transform: translateY(0);
 }
+
+/* AI Chatbot Styles */
+:root {
+    --ai-width: 380px;
+    --ai-gap: 16px;
+}
+body.ai-open .container {
+    margin-right: calc(var(--ai-width) + 100px);
+    margin-left: auto;
+}
+.ai-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: var(--ai-width);
+    background: linear-gradient(180deg, #061630, #083c86);
+    max-width: 90vw;
+    border-radius: 0 0 0 0;
+    box-shadow: -8px 0 32px rgba(0,0,0,0.45);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: #e6f0ff;
+    z-index: 1000;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: none; /* instant pop — no slide animation */
+    will-change: auto;
+}
+
+/* Active state (instant show) */
+.ai-panel.active {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* keep [hidden] useful for initial load */
+.ai-panel[hidden] { display: none; }
+
+/* When AI is open, we'll resize the main container (desktop) instead of adding body padding */
+body.ai-open {
+    overflow-x: hidden; /* avoid scroll when layout changes */
+}
+
+/* ----- ----- ----- ----- ----- */
+/* ----- ----- ----- ----- ----- */
+
+/* ----------------------------- */
+/* ----- ----- ----- ----- ----- */
+/* ----- ---- Classes ---- ----- */
+/* ----- ----- ----- ----- ----- */
 
 /* Disclaimer Banner Styles */
 .disclaimer-overlay {
@@ -508,100 +522,147 @@ h3 {
     padding: 0px 0px 0px 0px;
     margin: 0px;
 }
+/* ----- ----- ----- ----- ----- */
 
-/* Small screens */
-@media (max-width: 480px) {
-    .disclaimer-banner {
-        padding: 24px;
-        max-width: calc(100vw - 20px);
-    }
-
-    #disclaimer-title {
-        font-size: 1.2rem;
-    }
-
-    .disclaimer-content {
-        font-size: 0.9rem;
-    }
-
-    .ai-panel {
-        width: calc(100vw - 20px);
-        max-height: 400px;
-        right: 10px;
-    }
-
-    .ai-message {
-        max-width: 90%;
-    }
+/* Title classes */
+.logo {
+    animation: title-bob 2.4s ease-in-out infinite, title-rotate 3s ease-in-out infinite;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.2;
+    display: inline-block;
+    margin-left: -2px;
+    background: linear-gradient(90deg,#fff4d6,#ffd1e6 40%, #d9f5ff 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 6px 24px rgba(0,0,0,0.15);
+    align-items: center;
+    gap: .35rem;
 }
 
-/* AI Chatbot Styles */
-:root { --ai-width: 380px; --ai-gap: 16px; /* increased so chat is noticeable and shifts page visually */ }
-.ai-panel {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0; /* dock from top to bottom of viewport */
-    width: var(--ai-width);
-    background: linear-gradient(180deg, #061630, #083c86);
-    max-width: 90vw;
-    /* full viewport height ensured by top/bottom stretch */
-    border-radius: 0 0 0 0;
-    box-shadow: -8px 0 32px rgba(0,0,0,0.45);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    color: #e6f0ff;
-    z-index: 1000;
-    transform: translateX(100%);
-    opacity: 0;
-    transition: none; /* instant pop — no slide animation */
-    will-change: auto;
+.title-text {
+    display: inline;
+    font-weight: 700;
+    font-size: clamp(1.3rem, 4vw, 2.1rem);
+    color: #e68c9e;
+    margin-left: 0.3rem;
+}
+/* ----- ----- ----- ----- ----- */
+
+/* Search Engine options */
+.option-button {
+  background-color: var(--primary);
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  padding: 6px 10px;
+  text-align: center;
+  font-weight: bold;
 }
 
-/* Active state (instant show) */
-.ai-panel.active {
-    transform: translateX(0);
-    opacity: 1;
+.option-button:hover {
+    color: white;
+    background-color: var(--primary);
 }
 
-/* keep [hidden] useful for initial load */
-.ai-panel[hidden] { display: none; }
+.option-button:checked {
+  background-color: var(--secondary);
+}
+/* ----- ----- ----- ----- ----- */
 
-/* When AI is open, we'll resize the main container (desktop) instead of adding body padding */
-body.ai-open {
-    overflow-x: hidden; /* avoid scroll when layout changes */
+/* Boogley-Button */
+.boogley-button {
+    position: relative;
+    padding: 18px 28px;
+    color: black;
+    font-size: 16px;
+    font-weight: 550;
+    background: linear-gradient(90deg, var(--primary), var(--link));
+    border-radius: 0.9em;
+    transition: all 0.4s ease;
 }
 
-@media (min-width: 900px) {
-    /* On wide screens when AI is open we shrink the main `.container` so the fixed
-       `.ai-panel` can sit outside at the right edge and the site remains centered.
-       The math keeps the same visual max-width (960px) but subtracts the panel width. */
-    .container {
-        transition: none; /* immediate resize */
-    }
-    body.ai-open .container {
-    margin-right: calc(var(--ai-width) + 100px); /* Push container left */
-    margin-left: auto;
-    }
+.boogley-button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    border-radius: 0.9em;
+    z-index: -10;
+    filter: blur(0);
+    transition: filter 0.4s ease;
 }
 
-/* On smaller screens keep the panel as overlay */
-@media (max-width: 899px) {
-    .ai-panel {
-        right: 10px;
-        width: calc(100vw - 20px);
-        height: auto;
-        border-radius: 12px;
-        transform: translateY(-10px) scale(0.98);
-        opacity: 0;
-    }
-    .ai-panel.active {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
-} 
+.boogley-button:hover::before {
+    background: linear-gradient(90deg, var(--primary), var(--link));
+    filter: blur(1.2em);
+}
 
+.boogley-button:active::before {
+    filter: blur(0.2em);
+}
+/* ----- ----- ----- ----- ----- */
+
+/* Fancy Select Dropdowns */
+select {
+    background: linear-gradient(90deg, var(--primary), var(--link));
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 10px 14px;
+    color: #000000;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+select:hover {
+    background: linear-gradient(90deg, var(--primary), var(--link));
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+select:focus {
+    box-shadow: 0 0 12px rgba(172, 225, 175, 0.4);
+}
+
+select option {
+    background: linear-gradient(90deg, var(--primary), var(--link));
+    color: var(--link);
+    padding: 8px;
+}
+
+/* Search Suggestions */
+.suggestion-item {
+    background: rgba(0,0,0,0.03);
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.suggestion-item.special {
+    background: linear-gradient(90deg, rgba(237, 163, 178, 0.15), rgba(172, 225, 175, 0.15));
+    border-left: 3px solid var(--primary);
+}
+
+.suggestion-item:hover {
+    background: rgba(0,0,0,0.08);
+}
+
+.suggestion-separator {
+    font-size: 0.75rem;
+    color: rgba(0,0,0,0.5);
+    padding: 8px;
+    margin-top: 4px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+/* ----- ----- ----- ----- ----- */
+
+/* AI Header */
 .ai-header {
     display: flex;
     justify-content: space-between;
@@ -618,6 +679,7 @@ body.ai-open {
     color: #cfe8ff;
 }
 
+/* AI Close Button */
 .ai-close {
     background: rgba(255,255,255,0.02);
     border: none;
@@ -633,10 +695,11 @@ body.ai-open {
     background: rgba(255,255,255,0.06);
 }
 
+/* Messages */
 .ai-messages {
     flex: 1;
     overflow-y: auto;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-x: hidden;
     padding: 16px;
     display: flex;
     flex-direction: column;
@@ -666,21 +729,23 @@ body.ai-open {
     padding: 10px 12px;
     border-radius: 8px;
     max-width: 85%;
-    min-height: auto; /* Remove any fixed height */
+    min-height: auto;
     word-wrap: break-word;
-    word-break: break-word; /* Break long words if needed */
+    word-break: break-word;
     font-size: 0.9rem;
     line-height: 1.4;
     animation: slideIn 0.3s ease-out;
-    flex-shrink: 0; /* Prevent messages from shrinking */
+    flex-shrink: 0;
 }
 
+/* User Message */
 .ai-message.user {
     align-self: flex-end;
     background: linear-gradient(135deg, var(--primary), var(--link));
     color: #063577;
 }
 
+/* AI Message */
 .ai-message.bot {
     align-self: flex-start;
     color: #89b6f5;
@@ -689,17 +754,7 @@ body.ai-open {
     box-shadow: 0 10px 22px rgba(88, 138, 208, 0.3), 0 0 18px rgba(42, 122, 233, 0.3) inset;
 }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
+/* Input Area */
 .ai-input-area {
     display: flex;
     gap: 8px;
@@ -724,7 +779,8 @@ body.ai-open {
     border-color: rgba(255,255,255,0.12);
 }
 
-#ai-send {
+/* AI Send Button */
+.ai-send-button {
     padding: 8px 12px;
     background: rgba(255,255,255,0.06);
     color: #e6f0ff;
@@ -736,121 +792,78 @@ body.ai-open {
     transition: background 0.15s, transform 0.08s;
 }
 
-#ai-send:hover {
+.ai-send-button:hover {
     background: rgba(255,255,255,0.12);
     transform: translateY(-1px);
 }
 
-#ai-send:active {
+.ai-send-button:active {
     transform: translateY(0);
-} 
-
-/* small screens */
-@media (max-width:700px){
-    .container { padding: clamp(16px, 4vw, 36px); }
-    .search-top { gap: clamp(10px, 2vw, 18px); flex-direction: column; }
-    select#engine-select { padding: clamp(6px, 1.5vw, 10px) clamp(8px, 2vw, 12px); font-size: clamp(0.8rem, 1.5vw, 0.95rem); }
-    .history-dropdown { max-width: calc(100vw - 20px); }
 }
+/* ----- ----- ----- ----- ----- */
 
-@media (max-width:480px){
-    .container { margin: 20px auto; padding: clamp(12px, 3vw, 24px); }
-    header { gap: clamp(4px, 1vw, 8px); }
-    .search-top { gap: clamp(8px, 2vw, 12px); }
-}
+/* ----------------------------- */
+/* ----- ----- ----- ----- ----- */
+/* ---- ---- Keyframes ---- ---- */
+/* ----- ----- ----- ----- ----- */
 
-/* Search Suggestions */
-.suggestion-item {
-    background: rgba(0,0,0,0.03);
-    padding: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-
-.suggestion-item.special {
-    background: linear-gradient(90deg, rgba(237, 163, 178, 0.15), rgba(172, 225, 175, 0.15));
-    border-left: 3px solid var(--primary);
-}
-
-.suggestion-item:hover {
-    background: rgba(0,0,0,0.08);
-}
-
-.suggestion-separator {
-    font-size: 0.75rem;
-    color: rgba(0,0,0,0.5);
-    padding: 8px;
-    margin-top: 4px;
-    border-top: 1px solid rgba(0,0,0,0.1);
-}
-
-/* Title classes */
-.logo {
-    animation: title-bob 3.8s ease-in-out infinite title-rotate 4.4s ease-in-out infinite;
-    font-size: clamp(1.8rem, 4vw, 3rem);
-    font-weight: 800;
-    line-height: 1.2;
-    display: inline-block;
-    margin-left: -2px;
-    background: linear-gradient(90deg,#fff4d6,#ffd1e6 40%, #d9f5ff 80%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-shadow: 0 6px 24px rgba(0,0,0,0.15);
-    align-items: center;
-    gap: .35rem;
-}
-
-.title-text {
-    display: inline;
-    font-weight: 700;
-    font-size: clamp(1.3rem, 4vw, 2.1rem);
-    color: #e68c9e;
-    margin-left: 0.3rem;
-    display: inline;
-    font-weight: 700;
-    font-size: clamp(1.3rem, 4vw, 2.1rem);
-    color: #e68c9e;
-    margin-left: 0.3rem;
-}
-
-/* Search Engine options */
-.option-button {
-  background-color: var(--primary);
-  color: white;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  padding: 6px 10px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.option-button:hover {
-    color: white;
-    background-color: var(--primary);
-}
-
-.option-button:checked {
-  background-color: var(--secondary);
-}
-
-/* Keyframes */
-
+/* Title bobbing and rotating */
 @keyframes title-bob {
-    0% { 
-        transform: translateY(0);
+    0%, 100% { 
+        transform: translateY(6px);
     } 50% {
-        transform: translateY(-6px) rotate(-1deg);
-    } 100% {
-        transform: translateY(0) rotate(+1deg);
-    } 
+        transform: translateY(0px);
+    }
 }
 
 @keyframes title-rotate {
-    50% {
+    0%, 100% {
         transform: rotate(-2deg);
-    } 100% {
+    } 50% {
         transform: rotate(2deg);
     } 
+}
+/* ----- ----- ----- ----- ----- */
+
+/* Fake AI Chat slide in */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* ----- ----- ----- ----- ----- */
+
+/* Snow falling and swaying */
+@keyframes fall { 
+    0% { top: -10vh; opacity: 0; }
+    5% { opacity: 0.8; }
+    95% { opacity: 0.6; }
+    100% { top: 120vh; opacity: 0; }
+}
+
+@keyframes sway { 
+    0%, 100% {
+        transform: translateX(0px) rotate(0deg);
+    } 50% {
+        transform: translateX(30px) rotate(180deg);
+    } 
+}
+/* ----- ----- ----- ----- ----- */
+
+@keyframes bulb-glow { 
+    0% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 0 6px rgba(255,255,255,0.02);
+    } 50% {
+        transform: translateY(-3px) scale(1.03);
+        box-shadow: 0 0 14px rgba(255,255,255,0.22);
+    } 100% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 0 6px rgba(255,255,255,0.02);
+    }
 }

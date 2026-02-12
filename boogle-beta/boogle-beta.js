@@ -25,7 +25,7 @@
         });
     }
 
-    // Initialize disclaimer on page load
+    // Initialize / Show disclaimer on page load
     initDisclaimer();
 
     // Winter decorations: show snow/lights from November through February
@@ -115,8 +115,8 @@
 
     // --- Settings + History store (localStorage-backed) ---
     const STORAGE_KEYS = {
-        history: 'boogle_history_v1',
-        settings: 'boogle_settings_v1'
+        history: 'boogle_history',
+        settings: 'boogle_settings'
     };
 
     function loadSettings(){
@@ -606,7 +606,7 @@
     const aiResponses = {
         'hello|hi|hey': [
             'Hello! I\'m Arg the AI Assistant. How can I help ya search today?',
-            'Hey there! Ready to search with Boogle? 🔍',
+            'Hey there! Ready to search with Boogle?',
             'Greetings! What would ya like to find?'
         ],
         'help': [
@@ -683,7 +683,7 @@
         ],
         'features|what can': [
             'Boogle has: dual search engines (Google & DuckDuckGo), search history, seasonal decorations, and me - Arg the AI!',
-            'Features include instant answers, history tracking, customizable settings, and a "Feeling Boogley" button for fun!',
+            'Features include instant answers, history tracking, customizable settings, and a "I\'m Feeling Boogley" button for fun!',
             'Boogle offers fast searching, local history storage, privacy protection, and a festive interface!'
         ],
         'open mode|tab|window': [
@@ -814,25 +814,11 @@
         aiInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') sendAIMessage();
         });
-
-        // Close chatbot when clicking outside
-        document.addEventListener('click', (e) => {
-            const headerControls = document.querySelector('.header-controls');
-            if (headerControls && aiPanel && (headerControls.contains(e.target) || aiPanel.contains(e.target))) return;
-            if (aiPanel && aiPanel.classList.contains('active')) {
-                aiPanel.classList.remove('active');
-                document.body.classList.remove('ai-open');
-                aiPanel.setAttribute('aria-hidden', 'true');
-                setTimeout(() => { if (!aiPanel.classList.contains('active')) aiPanel.hidden = true; }, 340);
-            }
-        });
-
-
     }
 });
 
+/*
     function getWeather(city) {
-        fetch(`https://wttr.in/${city}?format=j1`)
-        .then(res => res.json())
-        .then(data => console.log('whatever:', data.current_condition));
+        
     }
+        */
