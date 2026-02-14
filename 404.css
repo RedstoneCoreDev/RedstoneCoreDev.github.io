@@ -1,0 +1,100 @@
+
+#blackhole-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(ellipse at center, #0a0a15 0%, #000000 100%);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #EDA3B2, #Ace1af);
+    color: #111;
+}
+
+.container {
+    width: 90vw;
+    max-width: 600px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 18px;
+    padding: 48px 36px;
+    box-shadow: 0 8px 36px rgba(0,0,0,0.18);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.error-code {
+    font-size: clamp(4rem, 15vw, 8rem);
+    font-weight: 800;
+    background: linear-gradient(90deg, #fff4d6, #ffd1e6 40%, #d9f5ff 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0;
+    line-height: 1;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+h1 {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: #e68c9e;
+    margin: 20px 0 10px;
+}
+
+p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(255,255,255,0.9);
+    margin: 20px 0 40px;
+}
+
+.button {
+    display: inline-block;
+    padding: 14px 32px;
+    background: linear-gradient(90deg, #ed7a91, #1e99e6);
+    color: black;
+    text-decoration: none;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.button:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.suggestions {
+    margin-top: 30px;
+    font-size: 1.5rem;
+    color: rgba(255,255,255,0.7);
+}
+
+.suggestions a {
+    color: #4EAFEA;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.suggestions a:hover {
+    text-decoration: underline;
+}
