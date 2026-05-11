@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naturwissenschaften · Formeln</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap');
+:root{--nav-w:234px;--mono:'JetBrains Mono',monospace;--sans:'Syne',sans-serif;--a-arbeit:#3b82f6;--a-energie:#10b981;--a-leistung:#f59e0b;--a-wirkungsgrad:#ef4444;--a-drehbewegung:#a855f7;--a-einheiten:#06b6d4;--a-variablen:#f97316;--a-lernkarten:#ec4899;--a-rechner:#84cc16;--a-animationen:#14b8a6;--tr:0.22s cubic-bezier(.4,0,.2,1)}
+html[data-theme="dark"]{--bg:#0a0b0f;--surf:#111318;--surf2:#181a22;--brd:#1e2028;--brd2:#2d3040;--txt:#e8eaf0;--txt2:#9ca3b0;--muted:#666a7a;--inp:#111318}
+html[data-theme="light"]{--bg:#f0f2f6;--surf:#ffffff;--surf2:#e8ebf0;--brd:#d8dce6;--brd2:#b8bece;--txt:#111318;--txt2:#4a505f;--muted:#8890a0;--inp:#ffffff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:100vh;display:flex;transition:background var(--tr),color var(--tr)}
+nav{position:fixed;top:0;left:0;width:var(--nav-w);height:100vh;background:var(--surf);border-right:1px solid var(--brd);display:flex;flex-direction:column;z-index:200;overflow:hidden;transition:width var(--tr),background var(--tr),border-color var(--tr),transform var(--tr)}
+nav.collapsed{width:0;border-right-color:transparent}
+.nav-inner{width:var(--nav-w);flex:1;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;padding:18px 0 0}
+.nav-logo{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;padding:0 16px 14px;border-bottom:1px solid var(--brd);margin-bottom:8px;white-space:nowrap}
+.nav-logo strong{display:block;font-family:var(--sans);font-size:15px;font-weight:800;color:var(--txt);letter-spacing:-.02em;margin-top:3px}
+.nav-links{flex:1;display:flex;flex-direction:column;gap:1px;padding:0 0 6px}
+a.nl{display:flex;align-items:center;gap:9px;padding:8px 16px;text-decoration:none;color:var(--muted);font-size:12.5px;font-weight:600;border-left:2px solid transparent;transition:all .13s;white-space:nowrap}
+a.nl:hover{color:var(--txt);background:rgba(128,128,128,.07)}
+a.nl.active{color:var(--txt);border-left-color:var(--c);background:rgba(128,128,128,.05)}
+a.nl .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:var(--c,var(--muted))}
+.nav-sep{height:1px;background:var(--brd);margin:6px 0}
+.nav-settings{border-top:1px solid var(--brd);padding:10px 16px 14px;display:flex;flex-direction:column;gap:9px}
+.srow{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.slabel{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.ptoggle{display:flex;background:var(--surf2);border-radius:99px;padding:2px;gap:2px}
+.ptoggle button{background:none;border:none;border-radius:99px;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--muted);padding:3px 8px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.ptoggle button.active{background:var(--surf);color:var(--txt);box-shadow:0 1px 4px rgba(0,0,0,.25)}
+#cbtn{position:fixed;top:14px;left:calc(var(--nav-w) + 8px);z-index:300;background:var(--surf);border:1px solid var(--brd);border-radius:7px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:left var(--tr),background var(--tr),border-color var(--tr);color:var(--muted)}
+#cbtn:hover{color:var(--txt);border-color:var(--brd2)}
+body.nc #cbtn{left:8px}
+#cbtn svg{transition:transform var(--tr)}
+body.nc #cbtn svg{transform:scaleX(-1)}
+main{margin-left:var(--nav-w);flex:1;padding:48px 40px 80px;max-width:calc(100% - var(--nav-w));transition:margin-left var(--tr),max-width var(--tr);min-width:0}
+body.nc main{margin-left:0;max-width:100%}
+.eyebrow{font-size:11px;font-family:var(--mono);color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
+.pg-title{font-size:clamp(24px,4vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:32px}
+.search-wrap{margin-bottom:28px}
+.sinput{width:100%;max-width:460px;background:var(--inp);border:1px solid var(--brd2);border-radius:8px;padding:9px 14px;font-family:var(--mono);font-size:13px;color:var(--txt);outline:none;transition:border-color .2s,background var(--tr)}
+.sinput::placeholder{color:var(--muted)}
+.sinput:focus{border-color:#3b82f6}
+.section{margin-bottom:56px;scroll-margin-top:24px}
+.shdr{display:flex;align-items:center;gap:9px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--brd)}
+.sdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.stitle{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.scnt{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--muted);border:1px solid var(--brd2);padding:2px 8px;border-radius:99px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:13px}
+.card{background:var(--surf);border:1px solid var(--brd);border-radius:10px;padding:17px;position:relative;overflow:hidden;transition:border-color .2s,transform .15s,background var(--tr)}
+.card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent)}
+.card:hover{border-color:var(--brd2);transform:translateY(-1px)}
+[data-section="arbeit"]{--accent:var(--a-arbeit)}[data-section="energie"]{--accent:var(--a-energie)}[data-section="leistung"]{--accent:var(--a-leistung)}[data-section="wirkungsgrad"]{--accent:var(--a-wirkungsgrad)}[data-section="drehbewegung"]{--accent:var(--a-drehbewegung)}[data-section="einheiten"]{--accent:var(--a-einheiten)}[data-section="variablen"]{--accent:var(--a-variablen)}[data-section="lernkarten"]{--accent:var(--a-lernkarten)}[data-section="rechner"]{--accent:var(--a-rechner)}[data-section="animationen"]{--accent:var(--a-animationen)}
+.cname{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:9px;font-family:var(--mono)}
+.fmain{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--txt);margin-bottom:6px}
+.funits{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-bottom:11px;padding:4px 8px;background:var(--surf2);border-radius:5px;border:1px solid var(--brd);transition:background var(--tr)}
+.cdesc{font-size:13px;line-height:1.6;color:var(--txt2);margin-bottom:8px}
+.cwhen{font-size:11px;color:var(--muted);background:var(--surf2);border-radius:5px;padding:5px 9px;border-left:2px solid var(--accent);transition:background var(--tr)}
+.cwhen::before{content:'→ ';font-family:var(--mono);color:var(--accent)}
+.legend{margin-top:11px;font-family:var(--mono);font-size:11px;color:var(--muted);border-top:1px solid var(--brd);padding-top:9px;display:grid;grid-template-columns:auto 1fr;gap:2px 9px}
+.lsym{color:var(--txt);font-weight:700}
+.flashcard{cursor:pointer}
+.fc-wrap{position:relative;width:100%;min-height:180px;perspective:800px}
+.fc-inner{width:100%;min-height:180px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1);position:relative}
+.flashcard.flipped .fc-inner{transform:rotateY(180deg)}
+.fc-front,.fc-back{backface-visibility:hidden;position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:16px;border-radius:8px}
+.fc-back{transform:rotateY(180deg);background:var(--surf2)}
+.calc-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-top:12px}
+.calc-input{background:var(--inp);border:1px solid var(--brd2);border-radius:7px;padding:8px 10px;font-family:var(--mono);font-size:14px;color:var(--txt);outline:none;width:100%;transition:border-color .2s}
+.calc-input:focus{border-color:#3b82f6}
+.calc-arrow{font-family:var(--mono);font-size:18px;color:var(--muted);text-align:center}
+.calc-label{font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center;margin-top:4px}
+.anim-card{background:var(--surf);border:1px solid var(--brd);border-radius:12px;overflow:hidden}
+.anim-canvas{width:100%;height:180px;display:block;background:var(--surf2)}
+.anim-vars{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;border-bottom:1px solid var(--brd);min-height:50px;align-items:center}
+.var-chip{font-family:var(--mono);font-size:12px;padding:3px 9px;border-radius:6px;border:1px solid var(--brd2);color:var(--txt2);transition:all .4s;opacity:0;transform:translateY(4px)}
+.var-chip.vis{opacity:1;transform:none}
+.var-chip.hi{color:var(--accent,var(--a-animationen));border-color:var(--accent,var(--a-animationen))}
+.anim-formula{padding:8px 16px;font-family:var(--mono);font-size:15px;font-weight:700;color:var(--txt);min-height:38px;transition:opacity .4s;opacity:0}
+.anim-formula.vis{opacity:1}
+.anim-desc{padding:8px 16px 12px;font-size:12.5px;color:var(--txt2);line-height:1.5;min-height:40px}
+.anim-ctrl{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1px solid var(--brd)}
+.abtn{background:var(--surf2);border:1px solid var(--brd2);border-radius:7px;padding:6px 13px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--txt);cursor:pointer;transition:all .15s}
+.abtn:hover{border-color:var(--a-animationen);color:var(--a-animationen)}
+.abtn.pri{background:var(--a-animationen);color:#fff;border-color:var(--a-animationen)}
+.abtn.pri:hover{opacity:.85}
+.astep{font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto}
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:3px}
+.hidden{display:none!important}
+@media(max-width:680px){nav{transform:translateX(-100%);width:var(--nav-w)!important;box-shadow:4px 0 24px rgba(0,0,0,.3)}nav.mob-open{transform:translateX(0)}#cbtn{left:8px!important}main{margin-left:0!important;max-width:100%!important;padding:48px 16px 60px}.cards{grid-template-columns:1fr}.calc-grid{grid-template-columns:1fr;gap:6px}.calc-arrow{display:none}}
+</style></head>
+<body>
+<nav id="sidebar"><div class="nav-inner">
+<div class="nav-logo"><span id="nl-ey">Naturwissenschaften</span><strong id="nl-ti">Formeln</strong></div>
+<div class="nav-links" id="nav-links"></div>
+<div class="nav-settings">
+<div class="srow"><span class="slabel" id="sl-th">Theme</span>
+<div class="ptoggle" id="tt"><button data-v="system">Sys</button><button data-v="light">&#9728;</button><button data-v="dark">&#9790;</button></div></div>
+<div class="srow"><span class="slabel" id="sl-la">Sprache</span>
+<div class="ptoggle" id="lt"><button data-v="system">Sys</button><button data-v="de">DE</button><button data-v="en">EN</button></div></div>
+</div></div></nav>
+<div id="overlay"></div>
+<button id="cbtn" title="Toggle sidebar"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="8.5,1.5 3.5,6.5 8.5,11.5"/></svg></button>
+<main><div class="eyebrow" id="m-ey">Naturwissenschaften</div>
+<div class="pg-title" id="m-ti">Formeln &amp; Referenz</div>
+<div class="search-wrap"><input class="sinput" id="search" type="text" placeholder="Suchen..."></div>
+<div id="root"></div></main>
+<script>
+const TR={de:{ey:'Naturwissenschaften',ti:'Formeln',mti:'Formeln &amp; Referenz',search:'Suchen\u2026 z.B. Hubarbeit, Joule, eta',theme:'Theme',lang:'Sprache',ref:'Referenz',fml:n=>`${n} Formel${n!==1?'n':''}`,prev:'Zur\u00fcck',next:'Weiter',auto:'Auto',stop:'Stop',reset:'Reset',step:s=>`Schritt ${s}`,cats:{arbeit:'Arbeit',energie:'Energie',leistung:'Leistung',wirkungsgrad:'Wirkungsgrad',drehbewegung:'Drehbewegung',einheiten:'Einheiten',variablen:'Variablen & Symbole',lernkarten:'Lernkarten',rechner:'Einheitenrechner',animationen:'Animationen'}},en:{ey:'Natural Science',ti:'Formulas',mti:'Formulas &amp; Reference',search:'Search\u2026 e.g. kinetic, Joule, eta',theme:'Theme',lang:'Language',ref:'Reference',fml:n=>`${n} Formula${n!==1?'s':''}`,prev:'Back',next:'Next',auto:'Auto',stop:'Stop',reset:'Reset',step:s=>`Step ${s}`,cats:{arbeit:'Work',energie:'Energy',leistung:'Power',wirkungsgrad:'Efficiency',drehbewegung:'Rotation',einheiten:'Units',variablen:'Variables & Symbols',lernkarten:'Flashcards',rechner:'Unit Converter',animationen:'Animations'}}};
+
+const FD={
+arbeit:[
+{n:{de:'Allgemeine Arbeit',en:'General Work'},f:'W = F \u00b7 s',u:'J = N \u00b7 m',d:{de:'Geleistete Arbeit = Kraft \u00d7 Weg. Gilt wenn Kraft und Weg in gleiche Richtung zeigen.',en:'Work = force \u00d7 displacement. Valid when force and displacement are in the same direction.'},w:{de:'Konstante Kraft bewegt K\u00f6rper \u00fcber Strecke s.',en:'Constant force moves an object over distance s.'},l:[{s:'W',de:'Arbeit [J]',en:'Work [J]'},{s:'F',de:'Kraft [N]',en:'Force [N]'},{s:'s',de:'Weg [m]',en:'Distance [m]'}]},
+{n:{de:'Hubarbeit',en:'Lifting Work'},f:'W_hub = m \u00b7 g \u00b7 h',u:'J = kg \u00b7 (m/s\u00b2) \u00b7 m',d:{de:'Arbeit gegen die Schwerkraft um einen K\u00f6rper anzuheben.',en:'Work against gravity to lift a body by height h.'},w:{de:'K\u00f6rper wird senkrecht gehoben \u2014 Kran, Aufzug.',en:'Object lifted vertically \u2014 crane, elevator.'},l:[{s:'m',de:'Masse [kg]',en:'Mass [kg]'},{s:'g',de:'9,81 m/s\u00b2',en:'9.81 m/s\u00b2'},{s:'h',de:'H\u00f6he [m]',en:'Height [m]'}]},
+{n:{de:'Reibungsarbeit',en:'Friction Work'},f:'W_reib = F_reib \u00b7 s',u:'J = N \u00b7 m',d:{de:'Arbeit gegen Reibungskraft. Energie wird in W\u00e4rme umgewandelt \u2014 nicht r\u00fcckgewinnbar.',en:'Work against friction. Energy converts to heat \u2014 not recoverable.'},w:{de:'K\u00f6rper wird \u00fcber raue Oberfl\u00e4che gezogen.',en:'Object dragged across a rough surface.'},l:[{s:'F_reib',de:'Reibungskraft [N]',en:'Friction force [N]'},{s:'s',de:'Weg [m]',en:'Distance [m]'}]},
+{n:{de:'Federarbeit',en:'Spring Work'},f:'W_feder = \u00bd \u00b7 D \u00b7 x\u00b2',u:'J = \u00bd \u00b7 (N/m) \u00b7 m\u00b2',d:{de:'Arbeit zum Spannen einer Feder. Faktor \u00bd weil Kraft linear mit Weg w\u00e4chst.',en:'Work to compress or extend a spring. Factor \u00bd because force grows linearly.'},w:{de:'Feder oder Gummiband wird gespannt.',en:'Spring or elastic band is stretched or compressed.'},l:[{s:'D',de:'Federkonstante [N/m]',en:'Spring constant [N/m]'},{s:'x',de:'Auslenkung [m]',en:'Displacement [m]'}]},
+{n:{de:'Beschleunigungsarbeit',en:'Acceleration Work'},f:'W_b = \u00bd \u00b7 m \u00b7 v\u00b2',u:'J = \u00bd \u00b7 kg \u00b7 (m/s)\u00b2',d:{de:'Arbeit um K\u00f6rper von 0 auf v zu beschleunigen. Entspricht kinetischer Energie.',en:'Work to accelerate a body from 0 to v. Equals kinetic energy.'},w:{de:'Fahrzeug beschleunigt, Wurf, Sto\u00df.',en:'Vehicle accelerates, throw, collision.'},l:[{s:'m',de:'Masse [kg]',en:'Mass [kg]'},{s:'v',de:'Endgeschwindigkeit [m/s]',en:'Final speed [m/s]'}]},
+],
+energie:[
+{n:{de:'Potentielle Energie',en:'Potential Energy'},f:'E_pot = m \u00b7 g \u00b7 h',u:'J = kg \u00b7 (m/s\u00b2) \u00b7 m',d:{de:'Lageenergie durch H\u00f6he. Identisch mit Hubarbeit \u2014 gespeichert durch Heben.',en:'Energy due to height. Identical to lifting work \u2014 stored by lifting.'},w:{de:'K\u00f6rper auf bestimmter H\u00f6he \u2014 Staudamm, erh\u00f6hte Kugel.',en:'Object at a height \u2014 dam, raised ball.'},l:[{s:'m',de:'Masse [kg]',en:'Mass [kg]'},{s:'g',de:'9,81 m/s\u00b2',en:'9.81 m/s\u00b2'},{s:'h',de:'H\u00f6he [m]',en:'Height [m]'}]},
+{n:{de:'Kinetische Energie',en:'Kinetic Energy'},f:'E_kin = \u00bd \u00b7 m \u00b7 v\u00b2',u:'J = \u00bd \u00b7 kg \u00b7 (m/s)\u00b2',d:{de:'Bewegungsenergie. Steigt quadratisch \u2014 doppelte Geschwindigkeit = 4\u00d7 Energie!',en:'Energy of motion. Grows quadratically \u2014 double speed = 4\u00d7 energy!'},w:{de:'Fahrendes Auto, fliegendes Objekt.',en:'Moving car, flying object.'},l:[{s:'m',de:'Masse [kg]',en:'Mass [kg]'},{s:'v',de:'Geschwindigkeit [m/s]',en:'Speed [m/s]'}]},
+{n:{de:'Spannenergie (Feder)',en:'Elastic Potential Energy'},f:'E_spann = \u00bd \u00b7 D \u00b7 x\u00b2',u:'J = \u00bd \u00b7 (N/m) \u00b7 m\u00b2',d:{de:'In gespannter Feder gespeicherte Energie. Kann in kinetische Energie umgewandelt werden.',en:'Energy stored in a compressed spring. Converts back to kinetic energy.'},w:{de:'Gespannte Feder, Bogen, Sprungfeder.',en:'Compressed spring, drawn bow, trampoline.'},l:[{s:'D',de:'Federkonstante [N/m]',en:'Spring constant [N/m]'},{s:'x',de:'Auslenkung [m]',en:'Displacement [m]'}]},
+{n:{de:'Energieerhaltung',en:'Conservation of Energy'},f:'E_pot + E_kin = const.',u:'J + J = const.',d:{de:'Gesamtenergie bleibt in abgeschlossenem System ohne Reibung konstant. Energie wird umgewandelt, nie vernichtet.',en:'Total energy stays constant in a closed system without friction. Energy is converted, never destroyed.'},w:{de:'Freier Fall, Pendel, Achterbahn (ohne Reibung).',en:'Free fall, pendulum, roller coaster (no friction).'}},
+],
+leistung:[
+{n:{de:'Leistung (Grundformel)',en:'Power (basic)'},f:'P = W / t',u:'W = J / s',d:{de:'Arbeit pro Zeiteinheit. Schneller = mehr Leistung.',en:'Work per unit time. Faster = more power.'},w:{de:'Wie schnell wird Arbeit geleistet \u2014 Motor, Pumpe, Muskel.',en:'How fast is work done \u2014 motor, pump, muscle.'},l:[{s:'P',de:'Leistung [W]',en:'Power [W]'},{s:'W',de:'Arbeit [J]',en:'Work [J]'},{s:'t',de:'Zeit [s]',en:'Time [s]'}]},
+{n:{de:'Leistung \u00fcber F & v',en:'Power via F & v'},f:'P = F \u00b7 v',u:'W = N \u00b7 (m/s)',d:{de:'Direkte Berechnung wenn Kraft und Geschwindigkeit bekannt.',en:'Direct calculation when force and speed are known.'},w:{de:'Fahrzeug bei konstanter Geschwindigkeit gegen Widerstand.',en:'Vehicle at constant speed against resistance.'},l:[{s:'F',de:'Kraft [N]',en:'Force [N]'},{s:'v',de:'Geschwindigkeit [m/s]',en:'Speed [m/s]'}]},
+{n:{de:'PS \u2194 Watt',en:'HP \u2194 Watt'},f:'1 PS = 735,5 W',u:'Umrechnungsfaktor',d:{de:'Pferdest\u00e4rke ist eine alte Leistungseinheit, noch bei Motoren \u00fcblich.',en:'Horsepower is an old power unit, still common for engines.'},w:{de:'Motorleistung umrechnen.',en:'Convert engine power ratings.'}},
+],
+wirkungsgrad:[
+{n:{de:'Wirkungsgrad',en:'Efficiency'},f:'\u03b7 = W_nutz / W_zu',u:'dimensionslos, 0\u20131',d:{de:'Verh\u00e4ltnis Nutzenergie zu zugef\u00fchrter Energie. Immer < 1 wegen Verlusten.',en:'Ratio of useful to input energy. Always < 1 due to losses.'},w:{de:'Maschinen, Motoren \u2014 bei Energieverlusten.',en:'Machines, motors \u2014 when calculating energy losses.'},l:[{s:'\u03b7',de:'Wirkungsgrad (eta)',en:'Efficiency (eta)'},{s:'W_nutz',de:'Nutzarbeit [J]',en:'Useful work [J]'},{s:'W_zu',de:'Zugef\u00fchrte Energie [J]',en:'Input energy [J]'}]},
+{n:{de:'Wirkungsgrad in %',en:'Efficiency in %'},f:'\u03b7% = (W_nutz / W_zu) \u00b7 100',u:'%',d:{de:'Gleiche Formel \u00d7 100 f\u00fcr Prozentdarstellung.',en:'Same formula \u00d7 100 for percentage.'},w:{de:'Wenn Ergebnis als % gew\u00fcnscht.',en:'When result should be in percent.'}},
+{n:{de:'Wirkungsgrad \u00fcber Leistung',en:'Efficiency via Power'},f:'\u03b7 = P_nutz / P_zu',u:'dimensionslos',d:{de:'Zeit k\u00fcrzt sich raus \u2014 Wirkungsgrad direkt aus Leistungsangaben.',en:'Time cancels out \u2014 efficiency directly from power values.'},w:{de:'Wenn Leistungen (Watt) statt Energiemengen gegeben.',en:'When power ratings are given instead of energy amounts.'},l:[{s:'P_nutz',de:'Nutzleistung [W]',en:'Useful power [W]'},{s:'P_zu',de:'Zugef\u00fchrte Leistung [W]',en:'Input power [W]'}]},
+],
+drehbewegung:[
+{n:{de:'Winkelgeschwindigkeit',en:'Angular Velocity'},f:'\u03c9 = \u03c6 / t',u:'rad/s',d:{de:'Winkel pro Sekunde. Das Drehzahl-\u00c4quivalent f\u00fcr Drehbewegungen.',en:'Angle per second. The rotational equivalent of linear speed.'},w:{de:'Drehendes Rad, Motor \u2014 Winkel\u00e4nderung pro Zeit.',en:'Spinning wheel, motor \u2014 angular change per time.'},l:[{s:'\u03c9',de:'Winkelgeschw. [rad/s]',en:'Angular velocity [rad/s]'},{s:'\u03c6',de:'Winkel [rad]',en:'Angle [rad]'},{s:'t',de:'Zeit [s]',en:'Time [s]'}]},
+{n:{de:'\u03c9 aus Frequenz',en:'\u03c9 from Frequency'},f:'\u03c9 = 2\u03c0 \u00b7 f',u:'rad/s = rad \u00b7 Hz',d:{de:'Verbindet Winkelgeschwindigkeit mit Frequenz f (Umdrehungen/s).',en:'Links angular velocity with frequency f (revolutions/s).'},w:{de:'Drehzahl in Hz oder U/min (\u00f760) gegeben.',en:'Speed given in Hz or RPM (\u00f760).'},l:[{s:'f',de:'Frequenz [Hz]',en:'Frequency [Hz]'}]},
+{n:{de:'Bahngeschwindigkeit',en:'Tangential Speed'},f:'v = \u03c9 \u00b7 r',u:'m/s = (rad/s) \u00b7 m',d:{de:'Lineare Geschwindigkeit eines Punkts am Rand. Weiter au\u00dfen = schneller.',en:'Linear speed of a point on the edge. Further out = faster.'},w:{de:'Punkt auf drehendem Rad, CD.',en:'Point on spinning wheel, CD.'},l:[{s:'v',de:'Bahngeschw. [m/s]',en:'Tangential speed [m/s]'},{s:'\u03c9',de:'Winkelgeschw. [rad/s]',en:'Angular velocity [rad/s]'},{s:'r',de:'Radius [m]',en:'Radius [m]'}]},
+{n:{de:'Drehmoment',en:'Torque'},f:'M = F \u00b7 r',u:'Nm = N \u00b7 m',d:{de:'Drehwirkung einer Kraft. Gleiche Kraft weiter au\u00dfen = mehr Drehmoment.',en:'Rotational effect of a force. Same force further out = more torque.'},w:{de:'Schrauben, Hebel, T\u00fcrangel.',en:'Bolts, levers, door hinges.'},l:[{s:'M',de:'Drehmoment [Nm]',en:'Torque [Nm]'},{s:'F',de:'Kraft \u22a5 Hebelarm [N]',en:'Force \u22a5 lever arm [N]'},{s:'r',de:'Radius [m]',en:'Radius [m]'}]},
+{n:{de:'Rotationsarbeit',en:'Rotational Work'},f:'W = M \u00b7 \u03c6',u:'J = Nm \u00b7 rad',d:{de:'Arbeit bei Drehbewegung: Drehmoment \u00d7 Winkel. Analog zu W = F\u00b7s.',en:'Work in rotation: torque \u00d7 angle. Analogous to W = F\u00b7s.'},w:{de:'Drehende Maschine dreht sich um Winkel \u03c6.',en:'Rotating machine turns by angle \u03c6.'},l:[{s:'M',de:'Drehmoment [Nm]',en:'Torque [Nm]'},{s:'\u03c6',de:'Drehwinkel [rad]',en:'Rotation angle [rad]'}]},
+{n:{de:'Rotationsleistung',en:'Rotational Power'},f:'P = M \u00b7 \u03c9',u:'W = Nm \u00b7 (rad/s)',d:{de:'Leistung rotierender Systeme. Analog zu P = F\u00b7v.',en:'Power of rotating systems. Analogous to P = F\u00b7v.'},w:{de:'Motorleistung aus Drehmoment und Drehzahl.',en:'Engine power from torque and speed.'},l:[{s:'P',de:'Leistung [W]',en:'Power [W]'},{s:'M',de:'Drehmoment [Nm]',en:'Torque [Nm]'},{s:'\u03c9',de:'Winkelgeschw. [rad/s]',en:'Angular velocity [rad/s]'}]},
+],
+};
+
+const CONV=[
+{n:{de:'km/h \u2192 m/s',en:'km/h \u2192 m/s'},fr:{de:'km/h',en:'km/h'},to:{de:'m/s',en:'m/s'},hint:{de:'\u00f7 3,6',en:'\u00f7 3.6'},fn:v=>v/3.6,inv:v=>v*3.6},
+{n:{de:'kWh \u2192 Joule',en:'kWh \u2192 Joule'},fr:{de:'kWh',en:'kWh'},to:{de:'J',en:'J'},hint:{de:'\u00d7 3 600 000',en:'\u00d7 3,600,000'},fn:v=>v*3600000,inv:v=>v/3600000},
+{n:{de:'PS \u2192 Watt',en:'HP \u2192 Watt'},fr:{de:'PS',en:'HP'},to:{de:'W',en:'W'},hint:{de:'\u00d7 735,5',en:'\u00d7 735.5'},fn:v=>v*735.499,inv:v=>v/735.499},
+{n:{de:'\u00b0C \u2192 Kelvin',en:'\u00b0C \u2192 Kelvin'},fr:{de:'\u00b0C',en:'\u00b0C'},to:{de:'K',en:'K'},hint:{de:'+ 273,15',en:'+ 273.15'},fn:v=>v+273.15,inv:v=>v-273.15},
+{n:{de:'Grad \u2192 Radiant',en:'Degrees \u2192 Radians'},fr:{de:'\u00b0',en:'\u00b0'},to:{de:'rad',en:'rad'},hint:{de:'\u00d7 \u03c0 / 180',en:'\u00d7 \u03c0 / 180'},fn:v=>v*Math.PI/180,inv:v=>v*180/Math.PI},
+{n:{de:'bar \u2192 Pascal',en:'bar \u2192 Pascal'},fr:{de:'bar',en:'bar'},to:{de:'Pa',en:'Pa'},hint:{de:'\u00d7 100 000',en:'\u00d7 100,000'},fn:v=>v*100000,inv:v=>v/100000},
+];
+
+const ANIMS=[
+{id:'hubarbeit',name:{de:'Hubarbeit \u2014 Kran',en:'Lifting Work \u2014 Crane'},
+steps:[
+{vars:[],f:'',d:{de:'Ein Kran hebt eine Kiste an. Wir berechnen die ben\u00f6tigte Hubarbeit.',en:'A crane lifts a crate. We calculate the required lifting work.'},lift:0},
+{vars:['m = 500 kg'],f:'',d:{de:'Masse der Kiste: m = 500 kg',en:'Mass of the crate: m = 500 kg'},lift:0},
+{vars:['m = 500 kg','g = 9,81 m/s\u00b2'],f:'',d:{de:'Erdbeschleunigung: g = 9,81 m/s\u00b2 (immer gleich auf der Erde)',en:'Gravitational acceleration: g = 9.81 m/s\u00b2 (always the same on Earth)'},lift:0.4},
+{vars:['m = 500 kg','g = 9,81 m/s\u00b2','h = 12 m'],f:'',d:{de:'Hubh\u00f6he: h = 12 m',en:'Lifting height: h = 12 m'},lift:0.85},
+{vars:['m = 500 kg','g = 9,81 m/s\u00b2','h = 12 m'],f:'W_hub = m \u00b7 g \u00b7 h = 58 860 J \u2248 58,9 kJ',d:{de:'Einsetzen: W = 500 \u00b7 9,81 \u00b7 12 = 58 860 J \u2248 58,9 kJ',en:'Plug in: W = 500 \u00d7 9.81 \u00d7 12 = 58,860 J \u2248 58.9 kJ'},lift:1},
+]},
+{id:'kinetisch',name:{de:'Kinetische Energie \u2014 Zug',en:'Kinetic Energy \u2014 Train'},
+steps:[
+{vars:[],f:'',d:{de:'Ein Zug f\u00e4hrt auf einem Gleis. Wir berechnen seine Bewegungsenergie.',en:'A train moves along a track. We calculate its kinetic energy.'},spd:0.2},
+{vars:['m = 80 000 kg'],f:'',d:{de:'Masse des Zuges: m = 80 000 kg = 80 Tonnen',en:'Mass of the train: m = 80,000 kg = 80 tonnes'},spd:0.4},
+{vars:['m = 80 000 kg','v = 30 m/s'],f:'',d:{de:'Geschwindigkeit: v = 30 m/s \u2248 108 km/h',en:'Speed: v = 30 m/s \u2248 108 km/h'},spd:0.85},
+{vars:['m = 80 000 kg','v = 30 m/s'],f:'E_kin = \u00bd \u00b7 m \u00b7 v\u00b2 = 36 000 000 J = 36 MJ',d:{de:'Einsetzen: E = \u00bd \u00b7 80000 \u00b7 30\u00b2 = 36 000 000 J = 36 MJ',en:'Plug in: E = \u00bd \u00d7 80000 \u00d7 30\u00b2 = 36,000,000 J = 36 MJ'},spd:1},
+]},
+{id:'wirkungsgrad',name:{de:'Wirkungsgrad \u2014 Motor',en:'Efficiency \u2014 Engine'},
+steps:[
+{vars:[],f:'',d:{de:'Ein Motor bekommt Energie zugef\u00fchrt. Nicht alles wird als Nutzleistung ausgegeben.',en:'An engine receives input energy. Not all of it becomes useful output.'},fill:0},
+{vars:['W_zu = 1000 J'],f:'',d:{de:'Zugef\u00fchrte Energie: W_zu = 1000 J',en:'Input energy: W_zu = 1000 J'},fill:0.3},
+{vars:['W_zu = 1000 J','W_nutz = 750 J'],f:'',d:{de:'Nutzenergie: 750 J. Verlust: 250 J \u2192 W\u00e4rme',en:'Useful energy: 750 J. Loss: 250 J \u2192 heat'},fill:0.7},
+{vars:['W_zu = 1000 J','W_nutz = 750 J'],f:'\u03b7 = 750 / 1000 = 0,75 = 75%',d:{de:'Wirkungsgrad: \u03b7 = 750/1000 = 0,75 = 75%',en:'Efficiency: \u03b7 = 750/1000 = 0.75 = 75%'},fill:1},
+]},
+];
+
+const VAR_L=[
+{s:'a',u:'[m/s\u00b2]',de:'Beschleunigung \u2014 wie schnell sich die Geschwindigkeit \u00e4ndert',en:'Acceleration \u2014 how fast speed changes'},
+{s:'D',u:'[N/m]',de:'Federkonstante \u2014 wie steif eine Feder ist',en:'Spring constant \u2014 how stiff a spring is'},
+{s:'E',u:'[J]',de:'Energie \u2014 was ein System gespeichert hat',en:'Energy \u2014 what a system has stored'},
+{s:'F',u:'[N]',de:'Kraft \u2014 dr\u00fccken, ziehen, heben; aus F=m\u00b7a',en:'Force \u2014 push, pull, lift; from F=m\u00b7a'},
+{s:'f',u:'[Hz]',de:'Frequenz \u2014 Umdrehungen pro Sekunde',en:'Frequency \u2014 revolutions per second'},
+{s:'g',u:'[m/s\u00b2]',de:'Erdbeschleunigung \u2014 immer 9,81 m/s\u00b2 auf der Erde',en:'Gravitational acceleration \u2014 always 9.81 m/s\u00b2 on Earth'},
+{s:'h',u:'[m]',de:'H\u00f6he \u2014 senkrechter Abstand von Referenzebene (Boden=0)',en:'Height \u2014 vertical distance from reference level (floor=0)'},
+{s:'m',u:'[kg]',de:'Masse \u2014 wie schwer etwas ist (Waage), nicht das Gewicht!',en:'Mass \u2014 how heavy something is (scales), not the same as weight!'},
+{s:'M',u:'[Nm]',de:'Drehmoment \u2014 Drehwirkung einer Kraft; aus M=F\u00b7r',en:'Torque \u2014 rotational effect of a force; from M=F\u00b7r'},
+{s:'P',u:'[W]',de:'Leistung \u2014 wie schnell Arbeit verrichtet wird',en:'Power \u2014 how fast work is done'},
+{s:'r',u:'[m]',de:'Radius \u2014 Abstand vom Mittelpunkt/Drehachse nach au\u00dfen',en:'Radius \u2014 distance from centre/axis outward'},
+{s:'s',u:'[m]',de:'Strecke / Weg \u2014 wie weit etwas zur\u00fcckgelegt hat',en:'Distance / displacement \u2014 how far something travels'},
+{s:'t',u:'[s]',de:'Zeit \u2014 Dauer in Sekunden; h\u00d73600, min\u00d760',en:'Time \u2014 duration in seconds; h\u00d73600, min\u00d760'},
+{s:'T',u:'[s]',de:'Periodendauer \u2014 Zeit f\u00fcr eine Umdrehung; T=1/f',en:'Period \u2014 time for one revolution; T=1/f'},
+{s:'v',u:'[m/s]',de:'Geschwindigkeit \u2014 km/h \u00f7 3,6 = m/s',en:'Speed / velocity \u2014 km/h \u00f7 3.6 = m/s'},
+{s:'W',u:'[J]',de:'Arbeit \u2014 aufgewendete Energie; aus W=F\u00b7s',en:'Work \u2014 energy expended; from W=F\u00b7s'},
+{s:'x',u:'[m]',de:'Federauslenkung \u2014 wie weit sie aus Ruhelage gespannt ist',en:'Spring displacement \u2014 how far from rest position'},
+];
+const VAR_G=[
+{s:'\u03b7',n:{de:'eta',en:'eta'},u:{de:'0\u20131',en:'0\u20131'},de:'Wirkungsgrad \u2014 \u03b7=0,8 bedeutet 80% der Energie wird genutzt',en:'Efficiency \u2014 \u03b7=0.8 means 80% of energy is used'},
+{s:'\u03c9',n:{de:'omega',en:'omega'},u:{de:'[rad/s]',en:'[rad/s]'},de:'Winkelgeschwindigkeit \u2014 wie schnell sich etwas dreht',en:'Angular velocity \u2014 how fast something rotates'},
+{s:'\u03c6',n:{de:'phi',en:'phi'},u:{de:'[rad oder \u00b0]',en:'[rad or \u00b0]'},de:'Winkel \u2014 wie weit sich etwas gedreht hat; 360\u00b0=2\u03c0 rad',en:'Angle \u2014 how far something has rotated; 360\u00b0=2\u03c0 rad'},
+{s:'\u03c0',n:{de:'pi',en:'pi'},u:{de:'\u22483,14159',en:'\u22483.14159'},de:'Kreiszahl \u2014 taucht \u00fcberall bei Kreisen/Drehbewegungen auf',en:'Pi \u2014 appears wherever circles or rotations are involved'},
+{s:'\u03bc',n:{de:'my / mikro',en:'mu / micro'},u:{de:'=10\u207b\u2076',en:'=10\u207b\u2076'},de:'Als Vorsilbe: ein Millionstel (0,000001). Auch Reibungskoeffizient.',en:'As prefix: one millionth (0.000001). Also friction coefficient.'},
+{s:'\u0394',n:{de:'delta',en:'delta'},u:{de:'"Differenz"',en:'"difference"'},de:'Steht f\u00fcr "Änderung von". \u0394t = Endzeit \u2212 Startzeit.',en:'Means "change in". \u0394t = end time \u2212 start time.'},
+];
+const VAR_U=[
+{s:'J',n:'Joule',de:'Energie und Arbeit. 1 J \u2248 Energie eines 100g-Apfels der 1 m f\u00e4llt.',en:'Energy and work. 1 J \u2248 energy of a 100g apple falling 1 m.'},
+{s:'N',n:'Newton',de:'Kraft. 1 N \u2248 das Gewicht eines kleinen Apfels (~100g). 1 N = kg\u00b7m/s\u00b2.',en:'Force. 1 N \u2248 weight of a small apple (~100g). 1 N = kg\u00b7m/s\u00b2.'},
+{s:'W',n:'Watt',de:'Leistung. 1 W = 1 J/s. Gl\u00fchbirne: 60W, Mensch beim Sport: 100\u2013400W.',en:'Power. 1 W = 1 J/s. Light bulb: 60W, human exercising: 100\u2013400W.'},
+{s:'Pa',n:'Pascal',de:'Druck. 1 Pa = N/m\u00b2. Luftdruck auf Meeresh\u00f6he \u2248 101.325 Pa.',en:'Pressure. 1 Pa = N/m\u00b2. Air pressure at sea level \u2248 101,325 Pa.'},
+{s:'Hz',n:'Hertz',de:'Frequenz. 1 Hz = 1 Ereignis/s. Strom aus Steckdose: 50 Hz.',en:'Frequency. 1 Hz = 1 event/s. Mains electricity: 50 Hz.'},
+{s:'rad',n:'Radiant',de:'Winkel. 2\u03c0 rad = 360\u00b0. F\u00fcr Drehformeln immer rad verwenden!',en:'Angle. 2\u03c0 rad = 360\u00b0. Always use rad for rotation formulas!'},
+];
+
+let lang='de',curTP='system',curLP='system',isMob=window.innerWidth<=680;
+const animSt={};
+
+function sysLang(){return(navigator.language||'en').toLowerCase().startsWith('de')?'de':'en'}
+function sysTh(){return window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark'}
+function L(o){if(!o)return'';return typeof o==='string'?o:(o[lang]||o.en||o.de||'')}
+function T(k,...a){const t=TR[lang]||TR.en;const v=t[k];return typeof v==='function'?v(...a):(v||k)}
+
+function loadP(){
+  const s=JSON.parse(localStorage.getItem('nw3')||'{}');
+  curTP=s.tp||'system';curLP=s.lp||'system';
+  lang=curLP==='system'?sysLang():curLP;
+  document.documentElement.dataset.theme=curTP==='system'?sysTh():curTP;
+}
+function saveP(){localStorage.setItem('nw3',JSON.stringify({tp:curTP,lp:curLP}))}
+
+function fcHTML(f,sec){
+  const leg=f.l?`<div class="legend">${f.l.map(l=>`<span class="lsym">${l.s}</span><span>${l[lang]||l.en}</span>`).join('')}</div>`:'';
+  const u=f.u?`<div class="funits">${f.u}</div>`:'';
+  const w=f.w?`<div class="cwhen">${L(f.w)}</div>`:'';
+  return`<div class="card" data-section="${sec}"><div class="cname">${L(f.n)}</div><div class="fmain">${f.f}</div>${u}<div class="cdesc">${L(f.d)}</div>${w}${leg}</div>`;
+}
+
+function secHTML(id,cnt,cards){
+  return`<section class="section" id="${id}" data-section="${id}">
+  <div class="shdr"><span class="sdot" style="background:var(--a-${id})"></span><span class="stitle">${T('cats')[id]||id}</span><span class="scnt">${cnt}</span></div>
+  <div class="cards">${cards}</div></section>`;
+}
+
+function renderVars(){
+  const lr=VAR_L.map(v=>`<div style="padding:6px 0;border-bottom:1px solid var(--brd);display:flex;gap:10px;align-items:baseline"><span style="color:var(--a-variablen);font-weight:700;min-width:30px;font-family:var(--mono)">${v.s}</span><span style="color:var(--muted);min-width:68px;font-family:var(--mono);font-size:10px">${v.u}</span><span style="color:var(--txt2);font-size:12px">${v[lang]||v.en}</span></div>`).join('');
+  const gr=VAR_G.map(v=>`<div style="padding:6px 0;border-bottom:1px solid var(--brd)"><div style="display:flex;gap:8px;align-items:baseline;font-family:var(--mono);margin-bottom:2px"><span style="color:var(--a-variablen);font-weight:700;font-size:15px;min-width:24px">${v.s}</span><span style="color:var(--txt);font-weight:700;font-size:11px">${L(v.n)}</span><span style="color:var(--muted);font-size:10px">${L(v.u)}</span></div><div style="color:var(--txt2);font-size:11.5px;padding-left:32px">${v[lang]||v.en}</div></div>`).join('');
+  const ur=VAR_U.map(v=>`<div style="padding:6px 0;border-bottom:1px solid var(--brd)"><div style="display:flex;gap:8px;font-family:var(--mono);margin-bottom:2px"><span style="color:var(--a-variablen);font-weight:700;min-width:24px">${v.s}</span><span style="color:var(--txt);font-weight:700;font-size:11px">${v.n}</span></div><div style="color:var(--txt2);font-size:11.5px;padding-left:32px">${v[lang]||v.en}</div></div>`).join('');
+  const lL=lang==='en'?'Latin Letters':'Lateinische Buchstaben';
+  const lG=lang==='en'?'Greek Letters':'Griechische Buchstaben';
+  const lU=lang==='en'?'What is a Joule, Newton, Watt\u2026':'Was ist ein Joule, Newton, Watt\u2026';
+  return[
+    `<div class="card" data-section="variablen" style="grid-column:1/-1"><div class="cname">${lL}</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0 18px">${lr}</div></div>`,
+    `<div class="card" data-section="variablen"><div class="cname">${lG}</div>${gr}</div>`,
+    `<div class="card" data-section="variablen"><div class="cname">${lU}</div>${ur}</div>`,
+  ].join('');
+}
+
+function renderFlash(){
+  const all=[];
+  Object.entries(FD).forEach(([sec,fms])=>fms.forEach(f=>all.push({...f,sec})));
+  return all.slice(0,12).map(f=>`
+  <div class="card flashcard" data-section="lernkarten" onclick="this.classList.toggle('flipped')" style="min-height:175px">
+   <div class="fc-wrap"><div class="fc-inner">
+    <div class="fc-front"><div style="font-family:var(--mono);font-size:19px;font-weight:700;color:var(--a-${f.sec});text-align:center;margin-bottom:7px">${f.f}</div><div style="font-size:11.5px;color:var(--muted);text-align:center;font-family:var(--mono)">${L(f.n)}</div><div style="position:absolute;bottom:8px;right:10px;font-family:var(--mono);font-size:9px;color:var(--muted)">${lang==='de'?'\u2192 umdrehen':'\u2192 flip'}</div></div>
+    <div class="fc-back"><div style="font-size:12.5px;color:var(--txt2);text-align:center;line-height:1.6">${L(f.d)}</div>${f.w?`<div style="margin-top:7px;font-size:11px;color:var(--muted);text-align:center">${L(f.w)}</div>`:''}</div>
+   </div></div>
+  </div>`).join('');
+}
+
+function renderRechner(){
+  return CONV.map((c,i)=>`
+  <div class="card" data-section="rechner">
+   <div class="cname">${L(c.n)}</div>
+   <div style="font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:9px">${L(c.hint)}</div>
+   <div class="calc-grid">
+    <div><input class="calc-input" id="ca-${i}" type="number" placeholder="0" step="any" oninput="cu(${i},'a')"><div class="calc-label">${L(c.fr)}</div></div>
+    <div class="calc-arrow">\u21c4</div>
+    <div><input class="calc-input" id="cb-${i}" type="number" placeholder="0" step="any" oninput="cu(${i},'b')"><div class="calc-label">${L(c.to)}</div></div>
+   </div>
+  </div>`).join('');
+}
+window.cu=function(i,d){
+  const c=CONV[i],a=document.getElementById(`ca-${i}`),b=document.getElementById(`cb-${i}`);
+  if(d==='a'){const v=parseFloat(a.value);if(!isNaN(v))b.value=+c.fn(v).toPrecision(6);}
+  else{const v=parseFloat(b.value);if(!isNaN(v))a.value=+c.inv(v).toPrecision(6);}
+};
+
+function renderAnims(){
+  return ANIMS.map(a=>`
+  <div class="anim-card" data-section="animationen" style="grid-column:1/-1" id="ac-${a.id}">
+   <div style="padding:11px 15px 7px;font-weight:700;font-size:13px;color:var(--a-animationen);font-family:var(--mono)">${L(a.name)}</div>
+   <canvas id="cv-${a.id}" class="anim-canvas" height="180"></canvas>
+   <div class="anim-vars" id="av-${a.id}"></div>
+   <div class="anim-formula" id="af-${a.id}"></div>
+   <div class="anim-desc" id="ad-${a.id}"></div>
+   <div class="anim-ctrl">
+    <button class="abtn" onclick="aPrev('${a.id}')">${T('prev')}</button>
+    <button class="abtn pri" onclick="aNext('${a.id}')">${T('next')}</button>
+    <button class="abtn" id="aauto-${a.id}" onclick="aAuto('${a.id}')">${T('auto')}</button>
+    <button class="abtn" onclick="aReset('${a.id}')">${T('reset')}</button>
+    <span class="astep" id="astep-${a.id}"></span>
+   </div>
+  </div>`).join('');
+}
+
+function isDk(){return document.documentElement.dataset.theme==='dark'}
+function tc(d,l){return isDk()?d:l}
+
+function drawStep(id){
+  const anim=ANIMS.find(a=>a.id===id);if(!anim)return;
+  const st=animSt[id]||(animSt[id]={i:0,timer:null});
+  const step=anim.steps[st.i];
+  const cv=document.getElementById(`cv-${id}`);if(!cv)return;
+  cv.width=cv.offsetWidth||700;
+  const ctx=cv.getContext('2d');
+  // draw
+  if(id==='hubarbeit')drawCrane(ctx,cv.width,cv.height,step.lift||0);
+  else if(id==='kinetisch')drawTrain(ctx,cv.width,cv.height,step.spd||0);
+  else if(id==='wirkungsgrad')drawEng(ctx,cv.width,cv.height,step.fill||0);
+  // vars
+  const vc=document.getElementById(`av-${id}`);
+  if(vc)vc.innerHTML=step.vars.map((v,i)=>`<span class="var-chip vis${i===step.vars.length-1?' hi':''}">${v}</span>`).join('');
+  // formula
+  const fc=document.getElementById(`af-${id}`);
+  if(fc){fc.textContent=step.f||'';fc.classList.toggle('vis',!!step.f);}
+  // desc
+  const dc=document.getElementById(`ad-${id}`);
+  if(dc)dc.textContent=L(step.d);
+  // step
+  const sc=document.getElementById(`astep-${id}`);
+  if(sc)sc.textContent=T('step',st.i+1)+` / ${anim.steps.length}`;
+}
+
+function drawCrane(ctx,W,H,lift){
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=tc('#181a22','#eef0f4');ctx.fillRect(0,0,W,H);
+  ctx.fillStyle=tc('#2a2d3a','#d0d4de');ctx.fillRect(0,H-26,W,26);
+  const tx=W*.62,th=H*.8;
+  ctx.strokeStyle=tc('#3a3f50','#9098a8');ctx.lineWidth=5;
+  ctx.strokeRect(tx,H-26-th,18,th);
+  ctx.beginPath();ctx.moveTo(tx+9,H-26-th);ctx.lineTo(W*.22,H-26-th);ctx.stroke();
+  const cy=H-26-38-lift*(H*.54);
+  ctx.strokeStyle='#3b82f6';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(W*.22,H-26-th);ctx.lineTo(W*.22,cy);ctx.stroke();
+  ctx.fillStyle='#3b82f6';ctx.globalAlpha=.85;
+  ctx.beginPath();if(ctx.roundRect)ctx.roundRect(W*.22-20,cy,40,38,4);else ctx.rect(W*.22-20,cy,40,38);ctx.fill();
+  ctx.globalAlpha=1;
+  ctx.fillStyle=tc('#fff','#111');ctx.font='bold 10px monospace';ctx.textAlign='center';
+  ctx.fillText('500 kg',W*.22,cy+23);
+  if(lift>.05){
+    ctx.strokeStyle='#10b981';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(W*.22-32,H-26-38);ctx.lineTo(W*.22-32,cy);ctx.stroke();
+    ctx.fillStyle='#10b981';ctx.font='bold 10px monospace';ctx.textAlign='right';
+    ctx.fillText(`h=${(lift*12).toFixed(0)}m`,W*.22-34,(H-26-38+cy)/2+4);
+  }
+}
+
+function drawTrain(ctx,W,H,spd){
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=tc('#181a22','#eef0f4');ctx.fillRect(0,0,W,H);
+  ctx.fillStyle=tc('#2a2d3a','#d0d4de');ctx.fillRect(0,H-26,W,26);
+  ctx.strokeStyle=tc('#3a3f50','#8890a0');ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(0,H-28);ctx.lineTo(W,H-28);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(0,H-17);ctx.lineTo(W,H-17);ctx.stroke();
+  const tx=W*.1,ty=H-28-56,tw=W*.5;
+  ctx.fillStyle='#3b82f6';ctx.globalAlpha=.9;
+  ctx.beginPath();if(ctx.roundRect)ctx.roundRect(tx,ty,tw,56,8);else ctx.rect(tx,ty,tw,56);ctx.fill();ctx.globalAlpha=1;
+  for(let i=0;i<3;i++){ctx.fillStyle=tc('rgba(255,255,255,.25)','rgba(255,255,255,.6)');ctx.fillRect(tx+18+i*56,ty+10,36,26);}
+  [tx+28,tx+tw-28].forEach(wx=>{
+    ctx.beginPath();ctx.arc(wx,H-28,12,0,Math.PI*2);ctx.fillStyle=tc('#2d3040','#8890a0');ctx.fill();
+    ctx.beginPath();ctx.arc(wx,H-28,5,0,Math.PI*2);ctx.fillStyle=tc('#555','#b0b8c8');ctx.fill();
+  });
+  if(spd>.3){
+    ctx.strokeStyle='#f59e0b';ctx.lineWidth=2.5;
+    ctx.beginPath();ctx.moveTo(tx+tw+6,ty+28);ctx.lineTo(tx+tw+6+spd*45,ty+28);ctx.stroke();
+    ctx.fillStyle='#f59e0b';ctx.font='bold 11px monospace';ctx.textAlign='left';
+    ctx.fillText('v = 30 m/s',tx+tw+10,ty+24);
+  }
+}
+
+function drawEng(ctx,W,H,fill){
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=tc('#181a22','#eef0f4');ctx.fillRect(0,0,W,H);
+  const bx=W*.06,by=H*.32,bw=W*.88,bh=28;
+  ctx.fillStyle=tc('#2a2d3a','#d0d4de');
+  ctx.beginPath();if(ctx.roundRect)ctx.roundRect(bx,by,bw,bh,5);else ctx.rect(bx,by,bw,bh);ctx.fill();
+  if(fill>0){
+    ctx.fillStyle='#10b981';ctx.globalAlpha=.85;
+    const uw=bw*Math.min(fill*.75,.75);
+    ctx.beginPath();if(ctx.roundRect)ctx.roundRect(bx,by,uw,bh,5);else ctx.rect(bx,by,uw,bh);ctx.fill();ctx.globalAlpha=1;
+  }
+  if(fill>.6){
+    ctx.fillStyle='#ef4444';ctx.globalAlpha=.75;
+    const sx=bx+bw*.75;
+    ctx.beginPath();if(ctx.roundRect)ctx.roundRect(sx,by,bw*.25,bh,5);else ctx.rect(sx,by,bw*.25,bh);ctx.fill();ctx.globalAlpha=1;
+    ctx.fillStyle='#ef4444';ctx.font='bold 10px monospace';ctx.textAlign='center';
+    ctx.fillText('Verlust 250 J',bx+bw*.875,by+bh+16);
+  }
+  ctx.fillStyle=tc('#e8eaf0','#111318');ctx.font='bold 11px monospace';ctx.textAlign='center';
+  ctx.fillText(fill<.35?'W_zu = 1000 J':'W_nutz = 750 J',W/2,by-10);
+  ctx.fillStyle='#f59e0b';ctx.globalAlpha=.9;
+  ctx.beginPath();if(ctx.roundRect)ctx.roundRect(W*.38,H*.52,W*.24,H*.32,8);else ctx.rect(W*.38,H*.52,W*.24,H*.32);ctx.fill();ctx.globalAlpha=1;
+  ctx.fillStyle=tc('#0a0b0f','#fff');ctx.font='bold 12px monospace';ctx.textAlign='center';
+  ctx.fillText('Motor',W/2,H*.7);
+  if(fill>=1){ctx.fillStyle='#10b981';ctx.font='bold 14px monospace';ctx.fillText('\u03b7 = 75%',W/2,H*.9);}
+}
+
+window.aNext=function(id){const a=ANIMS.find(x=>x.id===id);if(!a)return;const s=animSt[id]||(animSt[id]={i:0});s.i=Math.min(s.i+1,a.steps.length-1);drawStep(id);};
+window.aPrev=function(id){const a=ANIMS.find(x=>x.id===id);if(!a)return;const s=animSt[id]||(animSt[id]={i:0});s.i=Math.max(s.i-1,0);drawStep(id);};
+window.aReset=function(id){const s=animSt[id];if(s&&s.timer){clearInterval(s.timer);s.timer=null;const b=document.getElementById(`aauto-${id}`);if(b)b.textContent=T('auto');}animSt[id]={i:0,timer:null};drawStep(id);};
+window.aAuto=function(id){
+  const a=ANIMS.find(x=>x.id===id);if(!a)return;
+  const s=animSt[id]||(animSt[id]={i:0,timer:null});
+  const btn=document.getElementById(`aauto-${id}`);
+  if(s.timer){clearInterval(s.timer);s.timer=null;if(btn)btn.textContent=T('auto');return;}
+  if(btn)btn.textContent=T('stop');
+  s.timer=setInterval(()=>{s.i++;if(s.i>=a.steps.length){clearInterval(s.timer);s.timer=null;s.i=a.steps.length-1;if(btn)btn.textContent=T('auto');}drawStep(id);},1900);
+};
+
+const EINH=[
+{n:{de:'Basiseinheiten',en:'Base Units'},f:'SI-System',u:'',d:{de:'Alle anderen Einheiten lassen sich daraus ableiten.',en:'All other units can be derived from these.'},l:[{s:'kg',de:'Kilogramm \u2014 Masse',en:'Kilogram \u2014 mass'},{s:'m',de:'Meter \u2014 L\u00e4nge',en:'Metre \u2014 length'},{s:'s',de:'Sekunde \u2014 Zeit',en:'Second \u2014 time'},{s:'N',de:'Newton = kg\u00b7m/s\u00b2',en:'Newton = kg\u00b7m/s\u00b2'},{s:'J',de:'Joule = N\u00b7m',en:'Joule = N\u00b7m'},{s:'W',de:'Watt = J/s',en:'Watt = J/s'},{s:'Pa',de:'Pascal = N/m\u00b2',en:'Pascal = N/m\u00b2'},{s:'rad',de:'Radiant \u2014 Winkel',en:'Radian \u2014 angle'},{s:'Hz',de:'Hertz = 1/s',en:'Hertz = 1/s'}]},
+{n:{de:'Vorsilben',en:'Prefixes'},f:'Potenzen von 10',u:'',d:{de:'F\u00fcr gro\u00dfe und kleine Werte.',en:'For very large and very small values.'},l:[{s:'G',de:'Giga = 10\u2079',en:'Giga = 10\u2079'},{s:'M',de:'Mega = 10\u2076',en:'Mega = 10\u2076'},{s:'k',de:'Kilo = 10\u00b3',en:'Kilo = 10\u00b3'},{s:'m',de:'Milli = 10\u207b\u00b3',en:'Milli = 10\u207b\u00b3'},{s:'\u03bc',de:'Mikro = 10\u207b\u2076 (ein Millionstel!)',en:'Micro = 10\u207b\u2076 (one millionth!)'},{s:'n',de:'Nano = 10\u207b\u2079',en:'Nano = 10\u207b\u2079'}]},
+{n:{de:'Konstanten',en:'Constants'},f:'',u:'',d:{de:'Immer gleich \u2014 einfach einsetzen.',en:'Always the same \u2014 just plug in.'},l:[{s:'g',de:'9,81 m/s\u00b2 \u2014 Erdbeschleunigung',en:'9.81 m/s\u00b2 \u2014 gravity'},{s:'\u03c0',de:'\u22483,14159 \u2014 Kreiszahl',en:'\u22483.14159 \u2014 pi'},{s:'2\u03c0',de:'\u22486,283 \u2014 volle Umdrehung in rad',en:'\u22486.283 \u2014 full revolution in rad'}]},
+{n:{de:'Grad \u2194 Radiant',en:'Degrees \u2194 Radians'},f:'\u03c6[rad] = \u03c6[\u00b0] \u00b7 \u03c0 / 180',u:'',d:{de:'F\u00fcr Drehformeln immer Radiant, nie Grad!',en:'For rotation formulas always use radians, not degrees!'},l:[{s:'360\u00b0',de:'= 2\u03c0 rad',en:'= 2\u03c0 rad'},{s:'180\u00b0',de:'= \u03c0 rad',en:'= \u03c0 rad'},{s:'90\u00b0',de:'= \u03c0/2 rad',en:'= \u03c0/2 rad'}]},
+];
+
+const CATS=['arbeit','energie','leistung','wirkungsgrad','drehbewegung','einheiten','variablen','lernkarten','rechner','animationen'];
+
+function renderAll(){
+  document.getElementById('nl-ey').textContent=T('ey');
+  document.getElementById('nl-ti').textContent=T('ti');
+  document.getElementById('m-ey').textContent=T('ey');
+  document.getElementById('m-ti').innerHTML=T('mti');
+  document.getElementById('search').placeholder=T('search');
+  document.getElementById('sl-th').textContent=T('theme');
+  document.getElementById('sl-la').textContent=T('lang');
+  document.title=`${T('ey')} \u00b7 ${T('ti')}`;
+  document.documentElement.lang=lang;
+  document.getElementById('nav-links').innerHTML=CATS.map(id=>`<a class="nl" href="#${id}" data-cat="${id}" style="--c:var(--a-${id})"><span class="dot"></span>${T('cats')[id]||id}</a>`).join('')+'<div class="nav-sep"></div>';
+  let html='';
+  Object.entries(FD).forEach(([id,fms])=>{html+=secHTML(id,T('fml',fms.length),fms.map(f=>fcHTML(f,id)).join(''));});
+  html+=secHTML('einheiten',T('ref'),EINH.map(f=>fcHTML(f,'einheiten')).join(''));
+  html+=secHTML('variablen',T('ref'),renderVars());
+  html+=secHTML('lernkarten',T('fml',12),renderFlash());
+  html+=secHTML('rechner',`${CONV.length}`,renderRechner());
+  html+=secHTML('animationen',`${ANIMS.length}`,renderAnims());
+  document.getElementById('root').innerHTML=html;
+  requestAnimationFrame(()=>{ANIMS.forEach(a=>{const cv=document.getElementById(`cv-${a.id}`);if(cv){cv.width=cv.offsetWidth||700;animSt[a.id]={i:0,timer:null};drawStep(a.id);}});rebindObs();});
+}
+
+let obs;
+function rebindObs(){
+  if(obs)obs.disconnect();
+  obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){document.querySelectorAll('.nl').forEach(l=>l.classList.remove('active'));const l=document.querySelector(`.nl[href="#${e.target.id}"]`);if(l)l.classList.add('active');}});},{threshold:.15});
+  document.querySelectorAll('.section').forEach(s=>obs.observe(s));
+}
+
+document.getElementById('search').addEventListener('input',function(){
+  const q=this.value.toLowerCase().trim();
+  document.querySelectorAll('.card').forEach(c=>c.classList.toggle('hidden',q&&!c.textContent.toLowerCase().includes(q)));
+  document.querySelectorAll('.section').forEach(s=>{const vis=[...s.querySelectorAll('.card')].some(c=>!c.classList.contains('hidden'));s.classList.toggle('hidden',q&&!vis);});
+});
+
+const sidebar=document.getElementById('sidebar'),overlay=document.getElementById('overlay');
+document.getElementById('cbtn').addEventListener('click',()=>{
+  if(isMob){sidebar.classList.toggle('mob-open');overlay.style.display=sidebar.classList.contains('mob-open')?'block':'none';}
+  else{document.body.classList.toggle('nc');sidebar.classList.toggle('collapsed');}
+});
+overlay.addEventListener('click',()=>{sidebar.classList.remove('mob-open');overlay.style.display='none';});
+window.addEventListener('resize',()=>{const m=window.innerWidth<=680;if(m!==isMob){isMob=m;sidebar.classList.remove('mob-open','collapsed');document.body.classList.remove('nc');overlay.style.display='none';}});
+
+document.querySelectorAll('#tt button').forEach(b=>{b.addEventListener('click',()=>{curTP=b.dataset.v;const act=curTP==='system'?sysTh():curTP;document.documentElement.dataset.theme=act;document.querySelectorAll('#tt button').forEach(x=>x.classList.toggle('active',x.dataset.v===curTP));saveP();ANIMS.forEach(a=>drawStep(a.id));});});
+document.querySelectorAll('#lt button').forEach(b=>{b.addEventListener('click',()=>{curLP=b.dataset.v;lang=curLP==='system'?sysLang():curLP;document.querySelectorAll('#lt button').forEach(x=>x.classList.toggle('active',x.dataset.v===curLP));saveP();renderAll();});});
+window.matchMedia('(prefers-color-scheme:light)').addEventListener('change',()=>{if(curTP==='system'){document.documentElement.dataset.theme=sysTh();ANIMS.forEach(a=>drawStep(a.id));}});
+
+(function(){
+  loadP();
+  document.querySelectorAll('#tt button').forEach(b=>b.classList.toggle('active',b.dataset.v===curTP));
+  document.querySelectorAll('#lt button').forEach(b=>b.classList.toggle('active',b.dataset.v===curLP));
+  renderAll();
+})();
+</script></body></html>
