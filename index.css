@@ -24,7 +24,13 @@ header {
 .header-title h1 {
     margin: 0;
     font-size: 2.5em;
-    color: #fff;
+    color: #ffffff;
+}
+
+h2 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #00c3ff;
 }
 
 .nav {
@@ -50,7 +56,7 @@ header {
     color: #000;
 }
 
-main {
+main, section {
     width: 90%;
     max-width: 900px;
     margin: 70px auto;
@@ -66,16 +72,12 @@ h4 {
 }
 
 a {
-    color: #00bfff;
+    color: #ff4b4b;
     text-decoration: none;
 }
 
 a:hover {
     text-decoration: underline;
-}
-
-.seperator {
-    margin: 20px 0px 20px 0px;
 }
 
 footer {
